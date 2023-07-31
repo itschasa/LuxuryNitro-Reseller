@@ -42,7 +42,7 @@ cmd_purchase_arg_token: Your Discord Token.
 cmd_purchase_arg_anonymous: If true, your name will be hidden in the queue.
 cmd_purchase_no_credits: You don't have enough credits!
 cmd_purchase_contact_owner: Please contact the owner! (An alert has been sent in the logs channel.)
-cmd_purchase_contact_owner_log: "{user} tried to purchase {amount} snipes, but you don't have enough balance! ({credits} left)"
+cmd_purchase_contact_owner_log: "{user} tried to purchase {amount} snipes, but you don't have enough balance! ({global_credits} left)"
 cmd_purchase_success: "You've been added to the queue! (Order {order})"
 cmd_purchase_success_log: "{user} added {amount} snipes to queue. (Order {order}) (Credits: {credit_before} -> {credit_after}) (Your account has {global_credits} credits left.)"
 
