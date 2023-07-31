@@ -1,0 +1,88 @@
+# Archivo de idioma - Español
+
+# Si tu comunidad no habla español, utiliza el archivo de idioma adecuado o copia el tuyo propio.
+# Si aparece texto en inglés, te faltan algunos campos. Copia los archivos originales de GitHub y busca los campos faltantes.
+
+# Términos generales
+no_admin: ¡No eres un administrador!
+general_error: "Error: {error}"
+retry_later_error: "Por favor, inténtalo de nuevo más tarde."
+unauthorized_error: ¡API de la tienda no autorizada! ¡Contacta al propietario!
+bool_true: "verdadero"
+bool_false: "falso"
+anonymous: anónimo
+anonymous_upper: Anónimo
+embed_fetch_error: "Error al obtener los pedidos para el embed de la cola:"
+
+# /claim
+cmd_claim: reclamar
+cmd_claim_desc: Reclama créditos con un ID de producto.
+cmd_claim_arg_order_id: Tu ID de pedido/factura.
+cmd_claim_order_incomplete: Este pedido no ha sido pagado.
+cmd_claim_no_order_exists: No se pudo encontrar un pedido con ese ID.
+cmd_claim_invalid_product_id: Este pedido no es para nitro snipes.
+cmd_claim_order_before_time: Este pedido se realizó antes de la migración. Contacta al propietario.
+cmd_claim_order_already_claimed: Este pedido ya ha sido reclamado.
+cmd_claim_success: "¡Reclamado! Ahora tienes {total} créditos."
+cmd_claim_success_log: "{user} reclamó {quantity} créditos ({credit_before} -> {credit_after}) de {source}: `{order}`"
+
+# /credits
+cmd_credits: créditos
+cmd_credits_desc: Muestra cuántos créditos tienes.
+cmd_credits_arg_hidden: Si es verdadero, muestra solo cuántos créditos tienes a ti mismo.
+cmd_credits_arg_user: (Solo para administradores) Muestra la cantidad de créditos que tiene un usuario.
+cmd_credits_success: "¡Tienes {total} créditos!"
+cmd_credits_success_user: "{user} tiene {total} créditos."
+
+# /purchase
+cmd_purchase: comprar
+cmd_purchase_desc: Crea un pedido.
+cmd_purchase_arg_amount: Cuántos nitro snipes.
+cmd_purchase_arg_token: Tu Token de Discord.
+cmd_purchase_arg_anonymous: Si es verdadero, tu nombre estará oculto en la cola.
+cmd_purchase_no_credits: ¡No tienes suficientes créditos!
+cmd_purchase_contact_owner: ¡Contacta al propietario! (Se ha enviado una alerta en el canal de registros.)
+cmd_purchase_contact_owner_log: "{user} intentó comprar {amount} snipes, pero no tienes suficiente saldo. ({credits} restantes)"
+cmd_purchase_success: "¡Has sido agregado a la cola! (Pedido {order})"
+cmd_purchase_success_log: "{user} agregó {amount} snipes a la cola. (Pedido {order}) (Créditos: {credit_before} -> {credit_after}) (Tu cuenta tiene {global_credits} créditos restantes.)"
+
+# /cancel
+cmd_cancel: cancelar
+cmd_cancel_desc: Elimina tu pedido de la cola.
+cmd_cancel_arg_order_id: Tu ID de pedido.
+cmd_cancel_order_invalid: No se puede encontrar un pedido con ese ID.
+cmd_cancel_order_completed: Este pedido ya ha sido completado.
+cmd_cancel_no_permission: No creaste este pedido.
+cmd_cancel_success: Pedido {order} cancelado, se reembolsaron {amount} créditos.
+cmd_cancel_success_log: "{user} eliminó su pedido ({order}) de la cola. (Tu cuenta tiene {global_credits} créditos restantes.)"
+
+# /award
+cmd_award: otorgar
+cmd_award_desc: (Solo para administradores) Otorga/quita créditos a un usuario.
+cmd_award_arg_user: Receptor de créditos.
+cmd_award_arg_amount: Cantidad de créditos a otorgar/quitar. (usa un número negativo para quitar)
+cmd_award_arg_reason: Motivo para hacer esto.
+cmd_award_success: "{user} ahora tiene {credits} créditos."
+
+# /orders
+cmd_orders: pedidos
+cmd_orders_desc: Muestra todos tus pedidos.
+cmd_orders_arg_page: Qué página ver.
+cmd_orders_arg_all_orders: (Solo para administradores) Muestra todos los pedidos.
+cmd_orders_success: "Se encontraron {total} pedidos."
+cmd_orders_success_data: "{received}/{quantity} reclamados por {user}, anónimo={bool}"
+
+# /buy
+cmd_buy: comprar
+cmd_buy_desc: ¡Descubre cómo comprar!
+
+# /token
+cmd_token: token
+cmd_token_desc: Obtén tu Token de Discord mediante un código QR.
+cmd_token_success: Haz clic aquí para ver el código QR.
+
+# Embed de la cola
+queue_footer_text: Se actualiza cada 30 segundos
+queue_gifts: Regalos
+queue_title: "Cola de {name}"
+queue_length: "Longitud de la cola: {length}"
