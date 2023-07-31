@@ -1,0 +1,96 @@
+# user id of discord accounts with permissions to add/remove claims, etc
+discord_admins:
+- your_discord_id_here
+- your_co-owner_discord_id_here (if you have one, otherwise delete :D)
+
+# https://luxurynitro.com/settings
+api_key: luxurynitro_api_key_here
+
+database_name: data/database.db
+
+claiming:
+  # sellix, sellapp, or sellpass
+  mode: sellix
+  
+  # THIS IS IMPORTANT, set it to the current time you started reselling using this site (https://unixtimestamp.com/) 
+  start_time: 1690835910
+  
+  # sellix:   https://dashboard.sellix.io/settings/security
+  # sellapp:  https://sell.app/dashboard/settings?settings=developers#:~:text=show%20just%20yet.-,Create%20API%20Key,-API%20Keys%20allow
+  # sellpass: https://dashboard.sellpass.io/settings/security#:~:text=Save-,API%20Key,-These%20API%20keys
+  api_key: your_api_key_here
+  
+  # sellix  (only if u have more than 1 shop on your account): https://developers.sellix.io/#authentication
+  # sellapp (only if u have more than 1 shop on your account): https://developer.sell.app/authentication#multiple-stores
+  # sellpass: open ur shop > open devtools > click network > refresh page > find ID shown in image: https://i.imgur.com/OKzlZ94.png
+  merchant: null
+
+  # sellix:   https://dashboard.sellix.io/products > ID
+  # sellapp:  https://sell.app/dashboard/listings > click the product > share > embed product > find "data-sell-product" > copy the ID
+  # sellpass: https://dashboard.sellpass.io/products/all-products > ID
+  product: 12345
+
+
+
+# link displayed on /buy
+purchase_link: https://yourshophere.mysellix.io
+
+# https://discord.com/developers/applications
+discord_token: discord_bot_token
+
+# webhook where snipes go
+hit_webhook:
+  url: webhook_url_for_claims_channel
+  
+  # available variables: [emoji] [nitro] [user] [order] [claimed] [quantity] [time]
+  message: "[emoji] Claimed `[nitro]` for [user] `(#[order]) ([claimed]/[quantity])` in `[time]`."
+  
+  # either all or no emojis (if none, edit to "emoji: {}", and remove basic,boost,classic)
+  emojis: 
+    basic: <:nitro_basic:1093984571839758417>
+    boost: <:nitro_boost:1093986192346849310>
+    classic: <:nitro_classic:1129332873728634970>
+
+# embed for current queue will be in here
+queue_webhook:
+  url: webhook_url_for_queue_channel
+  
+  title_emoji: "<a:nitroBoost:1093978431689072710>" # if you dont want, set to ""
+  
+  # 1. pick a colour: https://google.com/search?q=color+picker
+  # 2. convert to a decimal: https://www.rapidtables.com/convert/number/hex-to-decimal.html
+  color: 11032831
+  
+  emojis:
+    claiming: <a:claiming:1116026143070507130>
+    in_queue: <a:in_queue:1076604250534182922>
+  
+  footer_icon: https://cdn.discordapp.com/emojis/1114898869004804106.gif?size=96&quality=lossless # this can be null
+
+  show_eta: true
+
+# private logs channel
+logs_channel: channel_id_for_your_logs
+
+
+# website to go to for /token
+
+# **all of the above is completely optional**, and you can use https://qr.chasa.wtf/ completely for free
+# if you want to use your own domain: (if you get stuck, search for "cloudflare pages tutorial" on youtube, im sure you can figure it out)
+#  1. get https://qr.chasa.wtf/ source code (visit the site -> right click -> View page source -> Copy all of the text)
+#  2. create a github repo, and upload and save the code with the file name index.html
+#  3. go to dash.cloudflare.com, and select your account
+#  4. once you are logged in and your url looks something like: https://dash.cloudflare.com/8638747a12f04d0cb759842352cc38c7
+#     add "/pages/new/provider/github" to the end of it, so its like: https://dash.cloudflare.com/8638747a12f04d0cb759842352cc38c7/pages/new/provider/github
+#  5. if this is your first time, you need to log into github.
+#  6. when thats done, select the repository that you made earlier, and click Begin Setup
+#  7. leave all the settings as they are, and click Save and Deploy.
+#  8. wait until thats deployed.
+#  9. you now have a pages.dev link. if you want your own domain, keep on following along
+# 10. scroll down, and click Continue to project
+# 11. click Custom domains then Set up a custom domain
+# 12. enter your domain (doesnt have to be on cloudflare), and click continue
+# 13. if your domain is on cloudflare, then you dont need to mess around with custom DNS, just click Activate domain
+# 14. if your domain isnt on cloudflare, then go to your DNS settings for that domain (on namecheap, or wherever you bought that domain), and add the correct DNS settings
+# 15. your website should now be online! it can sometimes take a few hours for your DNS settings to update, so just be patient.
+qr_code_link: https://qr.chasa.wtf/
