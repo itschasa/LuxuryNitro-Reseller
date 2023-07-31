@@ -1,0 +1,88 @@
+# Fichier de Langue - Français
+
+# Si votre communauté ne parle pas français, utilisez le fichier de langue approprié, ou copiez le vôtre.
+# Si du texte apparaît en anglais, vous avez manqué certains champs. Copiez les fichiers originaux sur GitHub et trouvez les champs manquants.
+
+# Termes généraux
+no_admin: Vous n'êtes pas administrateur !
+general_error: "Erreur : {error}"
+retry_later_error: "Veuillez réessayer ultérieurement."
+unauthorized_error: API de la boutique non autorisée. Veuillez contacter le propriétaire !
+bool_true: "vrai"
+bool_false: "faux"
+anonymous: anonyme
+anonymous_upper: Anonyme
+embed_fetch_error: "Échec de récupération des commandes pour l'insertion de file d'attente :"
+
+# /claim
+cmd_claim: réclamer
+cmd_claim_desc: Réclamez des crédits avec un ID de produit.
+cmd_claim_arg_order_id: Votre ID de commande/facture.
+cmd_claim_order_incomplete: Cette commande n'a pas été payée.
+cmd_claim_no_order_exists: Impossible de trouver une commande avec cet ID.
+cmd_claim_invalid_product_id: Cette commande n'est pas pour des snipes Nitro.
+cmd_claim_order_before_time: Cette commande a été passée avant la migration. Contactez le propriétaire.
+cmd_claim_order_already_claimed: Cette commande a déjà été réclamée.
+cmd_claim_success: "Réclamé ! Vous avez maintenant {total} crédits."
+cmd_claim_success_log: "{user} a réclamé {quantity} crédits ({credit_before} -> {credit_after}) de {source} : `{order}`"
+
+# /credits
+cmd_credits: crédits
+cmd_credits_desc: Affiche le nombre de crédits que vous avez.
+cmd_credits_arg_hidden: Si vrai, affichez uniquement combien de crédits vous avez à vous-même.
+cmd_credits_arg_user: (Réservé aux administrateurs) Affichez le nombre de crédits d'un utilisateur.
+cmd_credits_success: "Vous avez {total} crédits !"
+cmd_credits_success_user: "{user} a {total} crédits !"
+
+# /purchase
+cmd_purchase: achat
+cmd_purchase_desc: Créez une commande.
+cmd_purchase_arg_amount: Combien de snipes Nitro.
+cmd_purchase_arg_token: Votre jeton Discord.
+cmd_purchase_arg_anonymous: Si vrai, votre nom sera caché dans la file d'attente.
+cmd_purchase_no_credits: Vous n'avez pas assez de crédits !
+cmd_purchase_contact_owner: Veuillez contacter le propriétaire ! (Une alerte a été envoyée dans le canal des journaux.)
+cmd_purchase_contact_owner_log: "{user} a essayé d'acheter {amount} snipes, mais vous n'avez pas assez de solde ! (Reste {credits})"
+cmd_purchase_success: "Vous avez été ajouté à la file d'attente ! (Commande {order})"
+cmd_purchase_success_log: "{user} a ajouté {amount} snipes à la file d'attente. (Commande {order}) (Crédits : {credit_before} -> {credit_after}) (Votre compte dispose de {global_credits} crédits restants.)"
+
+# /cancel
+cmd_cancel: annuler
+cmd_cancel_desc: Retirez votre commande de la file d'attente.
+cmd_cancel_arg_order_id: Votre ID de commande.
+cmd_cancel_order_invalid: Impossible de trouver une commande avec cet ID.
+cmd_cancel_order_completed: Cette commande a déjà été traitée.
+cmd_cancel_no_permission: Vous n'avez pas créé cette commande.
+cmd_cancel_success: Commande {order} annulée, {amount} crédits remboursés.
+cmd_cancel_success_log: "{user} a supprimé leur commande ({order}) de la file d'attente. (Votre compte dispose de {global_credits} crédits restants.)"
+
+# /award
+cmd_award: récompense
+cmd_award_desc: (Réservé aux administrateurs) Donner/prendre des crédits à/un utilisateur.
+cmd_award_arg_user: Bénéficiaire des crédits.
+cmd_award_arg_amount: Nombre de crédits à donner/prendre. (utilisez un nombre négatif pour prendre)
+cmd_award_arg_reason: Raison de cette action.
+cmd_award_success: "{user} a maintenant {credits} crédits."
+
+# /orders
+cmd_orders: commandes
+cmd_orders_desc: Liste toutes vos commandes.
+cmd_orders_arg_page: Quelle page afficher.
+cmd_orders_arg_all_orders: (Réservé aux administrateurs) Liste toutes les commandes.
+cmd_orders_success: "{total} commandes récupérées."
+cmd_orders_success_data: "{received}/{quantity} réclamés par {user}, anonyme={bool}"
+
+# /buy
+cmd_buy: acheter
+cmd_buy_desc: Découvrez comment acheter !
+
+# /token
+cmd_token: jeton
+cmd_token_desc: Obtenez votre jeton Discord via un code QR.
+cmd_token_success: Cliquez ici pour afficher le code QR.
+
+# Insertion de file d'attente
+queue_footer_text: Mises à jour toutes les 30 secondes
+queue_gifts: Cadeaux
+queue_title: File d'attente de {name}
+queue_length: "Longueur de la file d'attente : {length}"
