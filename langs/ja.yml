@@ -1,0 +1,88 @@
+# 言語ファイル - 日本語
+
+# 日本語を話すコミュニティでない場合は、適切な言語ファイルを使用するか、独自のファイルをコピーして不足しているフィールドを探してください。
+# 英語のテキストが表示される場合は、いくつかのフィールドが不足しています。GitHubで元のファイルをコピーし、不足しているフィールドを見つけてください。
+
+# 一般的な用語
+no_admin: "管理者ではありません！"
+general_error: "エラー：{error}"
+retry_later_error: "後でもう一度お試しください。"
+unauthorized_error: "ショップAPIが許可されていません。オーナーにお問い合わせください！"
+bool_true: "はい"
+bool_false: "いいえ"
+anonymous: "匿名"
+anonymous_upper: "匿名"
+embed_fetch_error: "キュー埋め込みの注文を取得できませんでした："
+
+# /claim
+cmd_claim: claim
+cmd_claim_desc: 製品IDでクレジットを請求します。
+cmd_claim_arg_order_id: 注文/請求書ID。
+cmd_claim_order_incomplete: この注文は支払いが完了していません。
+cmd_claim_no_order_exists: そのIDで注文が見つかりませんでした。
+cmd_claim_invalid_product_id: この注文はNitroスナイプ用ではありません。
+cmd_claim_order_before_time: この注文は移行前に作成されました。オーナーに連絡してください。
+cmd_claim_order_already_claimed: この注文はすでに請求されています。
+cmd_claim_success: "請求しました！現在、{total}のクレジットを保有しています。"
+cmd_claim_success_log: "{user}が{source}から{order}により{quantity}のクレジット（{credit_before} -> {credit_after}）を請求しました。"
+
+# /credits
+cmd_credits: credits
+cmd_credits_desc: 保有しているクレジットを表示します。
+cmd_credits_arg_hidden: "trueの場合、自分だけに保有しているクレジットを表示します。"
+cmd_credits_arg_user: (管理者専用) ユーザーの保有クレジット数を表示します。
+cmd_credits_success: "現在、{total}のクレジットを保有しています！"
+cmd_credits_success_user: "{user}が現在、{total}のクレジットを保有しています！"
+
+# /purchase
+cmd_purchase: purchase
+cmd_purchase_desc: 注文を作成します。
+cmd_purchase_arg_amount: ニトロスナイプの数。
+cmd_purchase_arg_token: Discordのトークン。
+cmd_purchase_arg_anonymous: "trueの場合、キュー内で名前が非表示になります。"
+cmd_purchase_no_credits: クレジットが不足しています！
+cmd_purchase_contact_owner: オーナーにお問い合わせください！（ログチャンネルにアラートが送信されました。）
+cmd_purchase_contact_owner_log: "{user}が{amount}スナイプを購入しようとしましたが、残高が不足しています！（残りのクレジット：{credits}）"
+cmd_purchase_success: "キューに追加されました！（注文{order}）"
+cmd_purchase_success_log: "{user}が{amount}スナイプをキューに追加しました。（注文{order}）（クレジット：{credit_before} -> {credit_after}）（アカウントには{global_credits}のクレジットが残っています。）"
+
+# /cancel
+cmd_cancel: cancel
+cmd_cancel_desc: キューから注文を削除します。
+cmd_cancel_arg_order_id: 注文ID。
+cmd_cancel_order_invalid: そのIDの注文が見つかりませんでした。
+cmd_cancel_order_completed: この注文はすでに完了しています。
+cmd_cancel_no_permission: この注文を作成していません。
+cmd_cancel_success: 注文{order}がキャンセルされ、{amount}のクレジットが返金されました。
+cmd_cancel_success_log: "{user}が注文（{order}）をキューから削除しました。（アカウントには{global_credits}のクレジットが残っています。）"
+
+# /award
+cmd_award: award
+cmd_award_desc: (管理者専用) ユーザーにクレジットを与えたり取ったりします。
+cmd_award_arg_user: クレジットの受取人。
+cmd_award_arg_amount: 与える/取るクレジットの数（取得するには負の値を使用）。
+cmd_award_arg_reason: この行動の理由。
+cmd_award_success: "{user}が現在、{credits}のクレジットを保有しています。"
+
+# /orders
+cmd_orders: orders
+cmd_orders_desc: すべての注文をリストします。
+cmd_orders_arg_page: 表示するページ番号。
+cmd_orders_arg_all_orders: (管理者専用) すべての注文をリストします。
+cmd_orders_success: "{total}件の注文を取得しました。"
+cmd_orders_success_data: "{user}の{received}/{quantity}がクレームされ、匿名={bool}です。"
+
+# /buy
+cmd_buy: buy
+cmd_buy_desc: 購入方法を確認します！
+
+# /token
+cmd_token: token
+cmd_token_desc: DiscordのトークンをQRコードで取得します。
+cmd_token_success: QRコードを表示するにはここをクリックしてください。
+
+# キュー埋め込み
+queue_footer_text: 30秒ごとに更新されます
+queue_gifts: ギフト
+queue_title: "{name}キュー"
+queue_length: "キューの長さ：{length}"
