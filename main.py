@@ -10,7 +10,7 @@ import utils
 from utils import config
 import luxurynitro
 
-__version__ = 'v1.0.0'
+__version__ = 'v1.0.1'
 
 try:
     github_data = httpx.get("https://api.github.com/repos/ItsChasa/LuxuryNitro-Reseller/releases/latest").json()
@@ -180,27 +180,28 @@ async def cancel(interaction: discord.Interaction, order_id: int):
     elif res[2] != str(interaction.user.id) and interaction.user.id not in config.discord_admins:
         await resp_error(interaction, utils.lang.cmd_cancel_no_permission)
     else:
+        await interaction.response.defer(ephemeral=True)
         try:
             refunded = api.delete_order(order_id=order_id)
         
         except luxurynitro.errors.APIError as exc:
-            await resp_error(interaction, utils.lang.process(utils.lang.general_error, {'error': exc.message}))
+            await resp_error(interaction, utils.lang.process(utils.lang.general_error, {'error': exc.message}), followup=True)
             if "complete" in exc.message.lower():
                 db.edit('orders', {'completed': 1}, {'api_id': order_id})
                 
         except luxurynitro.errors.RetryTimeout:
-            await resp_error(interaction, utils.lang.retry_later_error)
+            await resp_error(interaction, utils.lang.retry_later_error, followup=True)
         
         else:
             balance = utils.get_credits(res[2])
             db.insert('credits', [res[2], refunded, f'Order {order_id} cancelled.', balance+refunded])
             db.edit('orders', {'completed': 1}, {'api_id': order_id})
             
-            await resp_success(interaction, utils.lang.process(utils.lang.cmd_cancel_success, {'order': order_id, 'amount': refunded}))
+            await resp_success(interaction, utils.lang.process(utils.lang.cmd_cancel_success, {'order': order_id, 'amount': refunded}), followup=True)
             
             global_credits += refunded
             
-            await log.success(utils.lang.process(utils.lang.cmd_cancel_success_log, {'user': interaction.user.mention, 'order': order_id, 'global_credits': global_credits}))
+            await log.success(utils.lang.process(utils.lang.cmd_cancel_success_log, {'user': interaction.user.mention, 'order': order_id, 'global_credits': global_credits}), followup=True)
     
     db.close()
 
@@ -208,11 +209,12 @@ claim_lock = asyncio.Lock()
 @tree.command(description=utils.lang.cmd_claim_desc, name=utils.lang.cmd_claim)
 @app_commands.describe(order_id=utils.lang.cmd_claim_arg_order_id)
 async def claim(interaction: discord.Interaction, order_id: str):
+    await interaction.response.defer(ephemeral=True)
     await claim_lock.acquire()
     success, reason, balance, logstr = await utils.buy_api.confirm_order(order_id, interaction.user.id)
     claim_lock.release()
     if success:
-        await resp_success(interaction, utils.lang.process(utils.lang.cmd_claim_success, {'total': balance}))
+        await resp_success(interaction, utils.lang.process(utils.lang.cmd_claim_success, {'total': balance}), followup=True)
         await log.success(logstr)
     else:
         reason_map = {
@@ -224,7 +226,7 @@ async def claim(interaction: discord.Interaction, order_id: str):
             'unknown': utils.lang.cmd_claim_no_order_exists,
             'payment': utils.lang.cmd_claim_order_incomplete
         }
-        await resp_error(interaction, reason_map[reason])
+        await resp_error(interaction, reason_map[reason], followup=True)
 
 @tree.command(description=utils.lang.cmd_award_desc, name=utils.lang.cmd_award)
 @app_commands.describe(user=utils.lang.cmd_award_arg_user, amount=utils.lang.cmd_award_arg_amount, reason=utils.lang.cmd_award_arg_reason)

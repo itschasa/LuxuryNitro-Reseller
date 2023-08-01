@@ -71,7 +71,7 @@ def get_order(order_id, retry=0) -> tuple[bool, Union[str, order_data]]:
                     product_id=str(resjson['data']['order']['product_id']),
                     order_time=resjson['data']['order']['created_at'],
                     quantity=resjson['data']['order']['quantity'],
-                    paid=resjson['data']['status'] == 'COMPLETED'
+                    paid=resjson['data']['order']['status'] == 'COMPLETED'
                 )
             
             elif config.claiming.mode == 'sellapp':                
