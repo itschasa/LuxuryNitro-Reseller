@@ -1,0 +1,87 @@
+# Language File - Italian
+# Se la tua comunita non parla inglese, usa un linguaggio appropriato , o copia il tuo.
+# If some text appears in English, then you are missing some fields. Copy the original files on github, and find the missing fields.
+
+# general terms
+no_admin: Non sei un admin!
+general_error: "Errore: {error}"
+retry_later_error: "Per favore riprova più tardi."
+unauthorized_error: Api dello shop non autorizzata. Contatta l'owner!
+bool_true: "vero"
+bool_false: "falso"
+anonymous: anonimo
+anonymous_upper: Anonimo
+embed_fetch_error: "Impossibile ottenere gli ordini per la queue nell'embed"
+
+# /claim
+cmd_claim: riscatto
+cmd_claim_desc: Crediti con un ID prodotto.
+cmd_claim_arg_order_id: Il tuo ID Ordine/Fattura.
+cmd_claim_order_incomplete: Questo ordine non è stato pagato.
+cmd_claim_no_order_exists: Impossibile trovare un ordine con quell'ID.
+cmd_claim_invalid_product_id: Questo ordine non è per il nitro sniper.
+cmd_claim_order_before_time: Questo ordine è stato effettuato prima della migrazione. Contatta l'owner.
+cmd_claim_order_already_claimed: Questo ordine è stato gia riscattato.
+cmd_claim_success: "Riscattato! Adesso hai {total} crediti."
+cmd_claim_success_log: "{user} ha riscattato {quantity} crediti ({credit_before} -> {credit_after}) dalla {source}: `{order}`"
+
+# /credits
+cmd_credits: crediti
+cmd_credits_desc: Mostra quanti crediti hai.
+cmd_credits_arg_hidden: Se è vero, mostra solo i crediti che hai.
+cmd_credits_arg_user: (Solo admin) Mostra il numero di crediti che ha un user.
+cmd_credits_success: "Hai {total} crediti!"
+cmd_credits_success_user: "{user} ha {total} crediti!"
+
+# /purchase
+cmd_purchase: comprare
+cmd_purchase_desc: Creare un ordine.
+cmd_purchase_arg_amount: Quanti nitro snipes.
+cmd_purchase_arg_token: Il tuo Discord Token.
+cmd_purchase_arg_anonymous: Se è vero, il tuo nome verra nascosto nella queue.
+cmd_purchase_no_credits: Non hai abbastanza crediti!
+cmd_purchase_contact_owner: Per favore contatta l'owner! (Un avvertimento è stato mandato nel canale dei log.)
+cmd_purchase_contact_owner_log: "{user} ha provato a comprare {amount} snipes, ma non hai abbastanza saldo! ({credits} rimasti)"
+cmd_purchase_success: "Sei stato aggiunto alla queue! (Ordine {order})"
+cmd_purchase_success_log: "{user} ha aggiunto {amount} snipes alla queue. (Ordine {order}) (Crediti: {credit_before} -> {credit_after}) (Il tuo account ha {global_credits} crediti rimasti.)"
+
+# /cancel
+cmd_cancel: cancella
+cmd_cancel_desc: Rimuove un ordine dalla queue.
+cmd_cancel_arg_order_id: Il tuo Order ID.
+cmd_cancel_order_invalid: Impossibile trovare un ordine con quell'ID.
+cmd_cancel_order_completed: Questo ordine è stato gia completato.
+cmd_cancel_no_permission: Non hai creato questo ordine.
+cmd_cancel_success: L'ordine {order} è stato cancellato, rimborsati {amount} crediti.
+cmd_cancel_success_log: "{user} ha rimosso il suo ordine ({order}) dalla queue. Il tuo account ha {global_credits} crediti rimasti.)"
+
+# /award
+cmd_award: premio
+cmd_award_desc: (Solo Admin) Dai/prendi crediti a/da un user.
+cmd_award_arg_user: Destinatario dei crediti.
+cmd_award_arg_amount: Numero di crediti da dare/prendere. (Usa un numero negativo per prenderli)
+cmd_award_arg_reason: Motivo.
+cmd_award_success: "{user} adesso ha {credits} crediti."
+
+# /orders
+cmd_orders: ordini
+cmd_orders_desc: Lista di tutti gli ordini.
+cmd_orders_arg_page: Quale pagina visualizzare.
+cmd_orders_arg_all_orders: (Solo Admin) Lista di tutti gli ordini.
+cmd_orders_success: "Fetchati {total} ordini."
+cmd_orders_success_data: "{received}/{quantity} riscattati su {user}, anonymous={bool}"
+
+# /buy
+cmd_buy: compra
+cmd_buy_desc: Scopri come acquistare!
+
+# /token
+cmd_token: token
+cmd_token_desc: Prendi il tuo Discord Token tramite QR Code.
+cmd_token_success: Clicca per vedere il codice QR.
+
+# queue embed
+queue_footer_text: Si aggiorna ogni 30 secondi.
+queue_gifts: Gifts
+queue_title: "{name} Queue"
+queue_length: "Lunghezza Queue: {length}"
