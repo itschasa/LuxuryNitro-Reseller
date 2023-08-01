@@ -1,0 +1,88 @@
+# Arquivo de idioma - Português
+
+# Se a sua comunidade não fala espanhol, utilize o arquivo de idioma adequado ou copie o seu próprio.
+# Se houver texto em inglês, faltam alguns campos. Copie os arquivos originais do GitHub e procure os campos faltantes.
+
+# Termos gerais
+no_admin = "Você não é um administrador!"
+general_error = "Erro: {error}"
+retry_later_error = "Por favor, tente novamente mais tarde."
+unauthorized_error = "API da loja não autorizada! Contate o proprietário!"
+bool_true = "verdadeiro"
+bool_false = "falso"
+anonymous = "anônimo"
+anonymous_upper = "Anônimo"
+embed_fetch_error = "Erro ao obter os pedidos para o embed da Fila:"
+
+# /claim
+cmd_claim = "reclamar"
+cmd_claim_desc = "Reivindique créditos com um ID de produto."
+cmd_claim_arg_order_id = "Seu ID de pedido/fatura."
+cmd_claim_order_incomplete = "Este pedido não foi pago."
+cmd_claim_no_order_exists = "Não foi possível encontrar um pedido com esse ID."
+cmd_claim_invalid_product_id = "Este pedido não é para nitro snipes."
+cmd_claim_order_before_time = "Este pedido foi feito antes da migração. Contate o proprietário."
+cmd_claim_order_already_claimed = "Este pedido já foi reclamado."
+cmd_claim_success = "Reivindicado! Agora você tem {total} créditos."
+cmd_claim_success_log = "{user} reivindicou {quantity} créditos ({credit_before} -> {credit_after}) de {source}: `{order}`"
+
+# /credits
+cmd_credits = "créditos"
+cmd_credits_desc = "Mostra quantos créditos você possui."
+cmd_credits_arg_hidden = "Se for verdadeiro, mostra apenas quantos créditos você possui."
+cmd_credits_arg_user = "(Somente para administradores) Mostra a quantidade de créditos que um usuário possui."
+cmd_credits_success = "Você possui {total} créditos!"
+cmd_credits_success_user = "{user} possui {total} créditos."
+
+# /purchase
+cmd_purchase = "comprar"
+cmd_purchase_desc = "Crie um pedido."
+cmd_purchase_arg_amount = "Quantos nitro snipes."
+cmd_purchase_arg_token = "Seu Token do Discord."
+cmd_purchase_arg_anonymous = "Se for verdadeiro, seu nome ficará oculto na Fila."
+cmd_purchase_no_credits = "Você não possui créditos suficientes!"
+cmd_purchase_contact_owner = "Contate o proprietário! (Foi enviada uma alerta no canal de registros.)"
+cmd_purchase_contact_owner_log = "{user} tentou comprar {amount} snipes, mas não possui saldo suficiente. (Créditos restantes: {credits})"
+cmd_purchase_success = "Você foi adicionado à Fila! (Pedido {order})"
+cmd_purchase_success_log = "{user} adicionou {amount} snipes à Fila. (Pedido {order}) (Créditos: {credit_before} -> {credit_after}) (Sua conta possui {global_credits} créditos restantes.)"
+
+# /cancel
+cmd_cancel = "cancelar"
+cmd_cancel_desc = "Remova seu pedido da Fila."
+cmd_cancel_arg_order_id = "Seu ID de pedido."
+cmd_cancel_order_invalid = "Não foi possível encontrar um pedido com esse ID."
+cmd_cancel_order_completed = "Este pedido já foi concluído."
+cmd_cancel_no_permission = "Você não criou este pedido."
+cmd_cancel_success = "Pedido {order} cancelado, {amount} créditos foram reembolsados."
+cmd_cancel_success_log = "{user} removeu seu pedido ({order}) da Fila. (Sua conta possui {global_credits} créditos restantes.)"
+
+# /award
+cmd_award = "conceder"
+cmd_award_desc = "(Somente para administradores) Conceda/retire créditos de um usuário."
+cmd_award_arg_user = "Recebedor de créditos."
+cmd_award_arg_amount = "Quantidade de créditos a ser concedida/retirada. (use um número negativo para retirar)"
+cmd_award_arg_reason = "Motivo para fazer isso."
+cmd_award_success = "{user} agora possui {credits} créditos."
+
+# /orders
+cmd_orders = "pedidos"
+cmd_orders_desc = "Mostra todos os seus pedidos."
+cmd_orders_arg_page = "Qual página ver."
+cmd_orders_arg_all_orders = "(Somente para administradores) Mostra todos os pedidos."
+cmd_orders_success = "Foram encontrados {total} pedidos."
+cmd_orders_success_data = "{received}/{quantity} reclamados por {user}, anônimo={bool}"
+
+# /buy
+cmd_buy = "compra"
+cmd_buy_desc = "Descubra como comprar créditos!"
+
+# /token
+cmd_token = "token"
+cmd_token_desc = "Obtenha seu Token do Discord através de um código QR."
+cmd_token_success = "Clique aqui para ver o código QR."
+
+# Embed da Fila
+queue_footer_text = "Atualiza a cada 30 segundos"
+queue_gifts = "Presentes"
+queue_title = "Fila de {name}"
+queue_length = "Comprimento da Fila: {length}"
