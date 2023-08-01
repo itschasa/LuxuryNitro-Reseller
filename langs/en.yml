@@ -1,88 +1,88 @@
-# Archivo de idioma - Español
+# Language File - English
 
-# Si tu comunidad no habla español, utiliza el archivo de idioma adecuado o copia el tuyo propio.
-# Si aparece texto en ingles, te faltan algunos campos. Copia los archivos originales de GitHub y busca los campos faltantes.
+# If your community does not speak English, then use the appropriate language file, or copy your own.
+# If some text appears in English, then you are missing some fields. Copy the original files on github, and find the missing fields.
 
-# Terminos generales
-no_admin: No eres un administrador!
+# general terms
+no_admin: You aren't an admin!
 general_error: "Error: {error}"
-retry_later_error: "Por favor, intentalo de nuevo mas tarde."
-unauthorized_error: API de la tienda no autorizada! Contacta al propietario!
-bool_true: "verdadero"
-bool_false: "falso"
-anonymous: anonimo
-anonymous_upper: Anonimo
-embed_fetch_error: "Error al obtener los pedidos para el embed de la Fila:"
+retry_later_error: "Please try again later."
+unauthorized_error: Shop API Unauthorized. Please contact the owner!
+bool_true: "true"
+bool_false: "false"
+anonymous: anonymous
+anonymous_upper: Anonymous
+embed_fetch_error: "Failed to get orders for queue embed:"
 
 # /claim
-cmd_claim: reclamar
-cmd_claim_desc: Reclama creditos con un ID de producto.
-cmd_claim_arg_order_id: Tu ID de pedido/factura.
-cmd_claim_order_incomplete: Este pedido no ha sido pagado.
-cmd_claim_no_order_exists: No se pudo encontrar un pedido con ese ID.
-cmd_claim_invalid_product_id: Este pedido no es para nitro snipes.
-cmd_claim_order_before_time: Este pedido se realizo antes de la migracion. Contacta al propietario.
-cmd_claim_order_already_claimed: Este pedido ya ha sido reclamado.
-cmd_claim_success: "Reclamado! Ahora tienes {total} creditos."
-cmd_claim_success_log: "{user} reclamo {quantity} creditos ({credit_before} -> {credit_after}) de {source}: `{order}`"
+cmd_claim: claim
+cmd_claim_desc: Claim credits with a product ID.
+cmd_claim_arg_order_id: Your Order/Invoice ID.
+cmd_claim_order_incomplete: This order hasn't been paid for.
+cmd_claim_no_order_exists: Couldn't find an order with that ID.
+cmd_claim_invalid_product_id: This order isn't for nitro snipes.
+cmd_claim_order_before_time: This order was made before the migration. Contact the owner.
+cmd_claim_order_already_claimed: This order has already been claimed.
+cmd_claim_success: "Claimed! You now have {total} credits."
+cmd_claim_success_log: "{user} claimed {quantity} credits ({credit_before} -> {credit_after}) from {source}: `{order}`"
 
 # /credits
-cmd_credits: creditos
-cmd_credits_desc: Muestra cuantos creditos tienes.
-cmd_credits_arg_hidden: Si es verdadero, muestra solo cuantos creditos tienes a ti mismo.
-cmd_credits_arg_user: (Solo para administradores) Muestra la cantidad de creditos que tiene un usuario.
-cmd_credits_success: "Tienes {total} creditos!"
-cmd_credits_success_user: "{user} tiene {total} creditos."
+cmd_credits: credits
+cmd_credits_desc: Shows how many credits you have.
+cmd_credits_arg_hidden: If true, only show how many credits you have to yourself.
+cmd_credits_arg_user: (Admin Only) Show number of credits a user has.
+cmd_credits_success: "You have {total} credits!"
+cmd_credits_success_user: "{user} has {total} credits!"
 
 # /purchase
-cmd_purchase: comprar
-cmd_purchase_desc: Crea un pedido.
-cmd_purchase_arg_amount: Cuantos nitro snipes.
-cmd_purchase_arg_token: Tu Token de Discord.
-cmd_purchase_arg_anonymous: Si es verdadero, tu nombre estara oculto en la Fila.
-cmd_purchase_no_credits: No tienes suficientes creditos!
-cmd_purchase_contact_owner: Contacta al propietario! (Se ha enviado una alerta en el canal de registros.)
-cmd_purchase_contact_owner_log: "{user} intento comprar {amount} snipes, pero no tienes suficiente saldo. ({credits} restantes)"
-cmd_purchase_success: "Has sido agregado a la Fila! (Pedido {order})"
-cmd_purchase_success_log: "{user} agrego {amount} snipes a la Fila. (Pedido {order}) (Creditos: {credit_before} -> {credit_after}) (Tu cuenta tiene {global_credits} creditos restantes.)"
+cmd_purchase: purchase
+cmd_purchase_desc: Create an order.
+cmd_purchase_arg_amount: How many nitro snipes.
+cmd_purchase_arg_token: Your Discord Token.
+cmd_purchase_arg_anonymous: If true, your name will be hidden in the queue.
+cmd_purchase_no_credits: You don't have enough credits!
+cmd_purchase_contact_owner: Please contact the owner! (An alert has been sent in the logs channel.)
+cmd_purchase_contact_owner_log: "{user} tried to purchase {amount} snipes, but you don't have enough balance! ({global_credits} left)"
+cmd_purchase_success: "You've been added to the queue! (Order {order})"
+cmd_purchase_success_log: "{user} added {amount} snipes to queue. (Order {order}) (Credits: {credit_before} -> {credit_after}) (Your account has {global_credits} credits left.)"
 
 # /cancel
-cmd_cancel: cancelar
-cmd_cancel_desc: Elimina tu pedido de la Fila.
-cmd_cancel_arg_order_id: Tu ID de pedido.
-cmd_cancel_order_invalid: No se puede encontrar un pedido con ese ID.
-cmd_cancel_order_completed: Este pedido ya ha sido completado.
-cmd_cancel_no_permission: No creaste este pedido.
-cmd_cancel_success: Pedido {order} cancelado, se reembolsaron {amount} creditos.
-cmd_cancel_success_log: "{user} elimino su pedido ({order}) de la Fila. (Tu cuenta tiene {global_credits} creditos restantes.)"
+cmd_cancel: cancel
+cmd_cancel_desc: Remove your order from queue.
+cmd_cancel_arg_order_id: Your Order ID.
+cmd_cancel_order_invalid: Can't find an order with that ID.
+cmd_cancel_order_completed: This order has already been completed.
+cmd_cancel_no_permission: You didn't create this order.
+cmd_cancel_success: Order {order} cancelled, refunded {amount} credits.
+cmd_cancel_success_log: "{user} removed their order ({order}) from queue. (Your account has {global_credits} credits left.)"
 
 # /award
-cmd_award: otorgar
-cmd_award_desc: (Solo para administradores) Otorga/quita creditos a un usuario.
-cmd_award_arg_user: Receptor de creditos.
-cmd_award_arg_amount: Cantidad de creditos a otorgar/quitar. (usa un numero negativo para quitar)
-cmd_award_arg_reason: Motivo para hacer esto.
-cmd_award_success: "{user} ahora tiene {credits} creditos."
+cmd_award: award
+cmd_award_desc: (Admin Only) Give/take credits to/from a user.
+cmd_award_arg_user: Recipient of credits.
+cmd_award_arg_amount: Number of credits to give/take. (use a negative to take)
+cmd_award_arg_reason: Reason for doing this.
+cmd_award_success: "{user} now has {credits} credits."
 
 # /orders
-cmd_orders: pedidos
-cmd_orders_desc: Muestra todos tus pedidos.
-cmd_orders_arg_page: Que pagina ver.
-cmd_orders_arg_all_orders: (Solo para administradores) Muestra todos los pedidos.
-cmd_orders_success: "Se encontraron {total} pedidos."
-cmd_orders_success_data: "{received}/{quantity} reclamados por {user}, anonimo={bool}"
+cmd_orders: orders
+cmd_orders_desc: Lists all of your orders.
+cmd_orders_arg_page: What page to view.
+cmd_orders_arg_all_orders: (Admins Only) Lists all orders.
+cmd_orders_success: "Fetched {total} orders."
+cmd_orders_success_data: "{received}/{quantity} claimed on {user}, anonymous={bool}"
 
 # /buy
-cmd_buy: compra
-cmd_buy_desc: Descubre como comprar creditos!
+cmd_buy: buy
+cmd_buy_desc: Find out how to buy!
 
 # /token
 cmd_token: token
-cmd_token_desc: Obten tu Token de Discord mediante un codigo QR.
-cmd_token_success: Haz clic aqui para ver el codigo QR.
+cmd_token_desc: Get your Discord Token via QR Code.
+cmd_token_success: Click here to view the QR code.
 
-# Embed de la Fila
-queue_footer_text: Se actualiza cada 30 segundos
-queue_gifts: Regalos
-queue_title: "Fila de {name}"
-queue_length: "Longitud de la Fila: {length}"
+# queue embed
+queue_footer_text: Updates every 30 seconds
+queue_gifts: Gifts
+queue_title: "{name} Queue"
+queue_length: "Queue Length: {length}"
