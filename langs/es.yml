@@ -27,7 +27,7 @@ cmd_claim_success: "¡Reclamado! Ahora tienes {total} créditos."
 cmd_claim_success_log: "{user} reclamó {quantity} créditos ({credit_before} -> {credit_after}) de {source}: `{order}`"
 
 # /credits
-cmd_credits: créditos
+cmd_credits: creditos
 cmd_credits_desc: Muestra cuántos créditos tienes.
 cmd_credits_arg_hidden: Si es verdadero, muestra solo cuántos créditos tienes a ti mismo.
 cmd_credits_arg_user: (Solo para administradores) Muestra la cantidad de créditos que tiene un usuario.
