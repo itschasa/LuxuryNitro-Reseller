@@ -15,7 +15,7 @@ anonymous_upper: Anonyme
 embed_fetch_error: "Échec de récupération des commandes pour l'insertion de file d'attente :"
 
 # /claim
-cmd_claim: réclamer
+cmd_claim: reclamer
 cmd_claim_desc: Réclamez des crédits avec un ID de produit.
 cmd_claim_arg_order_id: Votre ID de commande/facture.
 cmd_claim_order_incomplete: Cette commande n'a pas été payée.
@@ -27,7 +27,7 @@ cmd_claim_success: "Réclamé ! Vous avez maintenant {total} crédits."
 cmd_claim_success_log: "{user} a réclamé {quantity} crédits ({credit_before} -> {credit_after}) de {source} : `{order}`"
 
 # /credits
-cmd_credits: crédits
+cmd_credits: credits
 cmd_credits_desc: Affiche le nombre de crédits que vous avez.
 cmd_credits_arg_hidden: Si vrai, affichez uniquement combien de crédits vous avez à vous-même.
 cmd_credits_arg_user: (Réservé aux administrateurs) Affichez le nombre de crédits d'un utilisateur.
@@ -57,7 +57,7 @@ cmd_cancel_success: Commande {order} annulée, {amount} crédits remboursés.
 cmd_cancel_success_log: "{user} a supprimé leur commande ({order}) de la file d'attente. (Votre compte dispose de {global_credits} crédits restants.)"
 
 # /award
-cmd_award: récompense
+cmd_award: recompense
 cmd_award_desc: (Réservé aux administrateurs) Donner/prendre des crédits à/un utilisateur.
 cmd_award_arg_user: Bénéficiaire des crédits.
 cmd_award_arg_amount: Nombre de crédits à donner/prendre. (utilisez un nombre négatif pour prendre)
