@@ -5,12 +5,13 @@ import time
 import httpx
 import asyncio
 import base64
+import logging
 
 import utils
 from utils import config
 import luxurynitro
 
-__version__ = 'v1.0.1'
+__version__ = 'v1.0.2'
 
 try:
     github_data = httpx.get("https://api.github.com/repos/ItsChasa/LuxuryNitro-Reseller/releases/latest").json()
@@ -38,12 +39,6 @@ queue_message_id = f.read()
 f.close()
 if queue_message_id == '': queue_message_id = None
 
-api = luxurynitro.Client(config.api_key)
-try: api_user = api.get_user()
-except luxurynitro.errors.APIError as exc:
-    print(f"Error connecting to LuxuryNitro API ({api._base_url}): {exc.message}")
-    exit()
-
 intents = discord.Intents.default()
 intents.message_content = True
 client = discord.Client(intents=intents)
@@ -56,6 +51,8 @@ error_symbol = '`🔴`'
 success_color = 0x4dd156
 success_symbol = '`🟢`'
 
+api: luxurynitro.Client = None
+api_user: luxurynitro.User = None
 
 class log:
     @staticmethod
@@ -127,7 +124,7 @@ async def purchase(interaction: discord.Interaction, amount: int, token: str, an
         await resp_error(interaction, utils.lang.cmd_purchase_no_credits, followup=True)
     else:
         try:
-            order = api.create_order(amount, token, anonymous=anonymous, reason=f"RS: {interaction.user.id}")
+            order = await api.create_order(amount, token, anonymous=anonymous, reason=f"RS: {interaction.user.id}")
         
         except luxurynitro.errors.APIError as exc:
             if "credits" in exc.message.lower():
@@ -182,7 +179,7 @@ async def cancel(interaction: discord.Interaction, order_id: int):
     else:
         await interaction.response.defer(ephemeral=True)
         try:
-            refunded = api.delete_order(order_id=order_id)
+            refunded = await api.delete_order(order_id=order_id)
         
         except luxurynitro.errors.APIError as exc:
             await resp_error(interaction, utils.lang.process(utils.lang.general_error, {'error': exc.message}), followup=True)
@@ -201,7 +198,7 @@ async def cancel(interaction: discord.Interaction, order_id: int):
             
             global_credits += refunded
             
-            await log.success(utils.lang.process(utils.lang.cmd_cancel_success_log, {'user': interaction.user.mention, 'order': order_id, 'global_credits': global_credits}), followup=True)
+            await log.success(utils.lang.process(utils.lang.cmd_cancel_success_log, {'user': interaction.user.mention, 'order': order_id, 'global_credits': global_credits}))
     
     db.close()
 
@@ -294,7 +291,7 @@ async def queueEmbedLoop():
     global queue_message_id, global_credits, global_orders
     await client.wait_until_ready()
     try:
-        user = api.get_user()
+        user = await api.get_user()
     except luxurynitro.errors.APIError as exc:
         await log.warn(f"{utils.lang.embed_fetch_error} {exc.message}")
     except luxurynitro.errors.RetryTimeout as exc:
@@ -342,15 +339,17 @@ async def queueEmbedLoop():
 
         if queue_message_id is not None:
             try:
-                res = httpx.patch(config.queue_webhook.url+f'/messages/{queue_message_id}', json={'embeds': [embed.to_dict()]})
-                if res.status_code != 200:
-                    queue_message_id = None
+                async with httpx.AsyncClient() as rclient:
+                    res = await rclient.patch(config.queue_webhook.url+f'/messages/{queue_message_id}', json={'embeds': [embed.to_dict()]})
+                    if res.status_code != 200:
+                        queue_message_id = None
             except:
                 pass
         
         if queue_message_id is None:
             try:
-                res = httpx.post(config.queue_webhook.url + '?wait=true', json={'embeds': [embed.to_dict()]})
+                async with httpx.AsyncClient() as rclient:
+                    res = await rclient.post(config.queue_webhook.url + '?wait=true', json={'embeds': [embed.to_dict()]})
             except:
                 pass
             else:
@@ -361,5 +360,21 @@ async def queueEmbedLoop():
         
         db.close()
 
-api.set_hit_webhook(config.hit_webhook.url, config.hit_webhook.message, config.hit_webhook.emojis)
-client.run(config.discord_token)
+async def startup():
+    global api, api_user, global_credits
+    print("Connecting to LuxuryNitro API...")
+    api = luxurynitro.Client(config.api_key)
+    try: api_user = await api.get_user()
+    except luxurynitro.errors.APIError as exc:
+        print(f"Error connecting to LuxuryNitro API ({api._base_url}): {exc.message}")
+        exit()
+    global_credits = api_user.credits
+    
+    print("Setting hit webhook...")
+    await api.set_hit_webhook(config.hit_webhook.url, config.hit_webhook.message, config.hit_webhook.emojis)
+
+    print("Logging into Discord...")
+    discord.utils.setup_logging(root=False)
+    await client.start(config.discord_token, reconnect=True)
+
+asyncio.run(startup())

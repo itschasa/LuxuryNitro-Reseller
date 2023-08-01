@@ -1,5 +1,5 @@
 import httpx
-import time
+import asyncio
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Union
@@ -35,7 +35,7 @@ class order_data:
     paid: bool
 
 
-def get_order(order_id, retry=0) -> tuple[bool, Union[str, order_data]]:
+async def get_order(order_id, retry=0) -> tuple[bool, Union[str, order_data]]:
     headers = {
         'Authorization': request_auth_map[config.claiming.mode].format(config.claiming.api_key),
         "Accept": "application/json"
@@ -44,20 +44,26 @@ def get_order(order_id, retry=0) -> tuple[bool, Union[str, order_data]]:
         headers[request_store_map[config.claiming.mode]] = config.claiming.merchant
     
     try:
-        res = httpx.request(
-            method=request_method_map[config.claiming.mode],
-            url=request_url_map[config.claiming.mode].format(order_id),
-            headers=headers,
-            json=None
-        )
+        async with httpx.AsyncClient() as rclient:
+            res = await rclient.request(
+                method=request_method_map[config.claiming.mode],
+                url=request_url_map[config.claiming.mode].format(order_id),
+                headers=headers,
+                json=None
+            )
     except:
         if retry > 2: return False, 'max_retries'
-        time.sleep(1)
+        await asyncio.sleep(1)
         return get_order(order_id, retry+1)
     else:
+        if config.claiming.mode == 'sellix':
+            # why must you do this sellix
+            try: res.status_code = res.json()['status']
+            except: pass
+
         if res.status_code == 429:
             if retry > 2: return False, 'max_retries'
-            time.sleep(2.5)
+            await asyncio.sleep(2.5)
             return get_order(order_id, retry+1)
         
         elif res.status_code in (401, 403):
@@ -118,7 +124,7 @@ def get_order(order_id, retry=0) -> tuple[bool, Union[str, order_data]]:
 
 async def confirm_order(order_id, discord_id):
     "Returns `tuple[bool, Union[str, order_data], int, str]`. str will be returned on False, order_data will be returned on True. int is the user's new balance (if it changed)."
-    success, data = get_order(order_id)
+    success, data = await get_order(order_id)
     if success:
         if data.order_time > config.claiming.start_time:
             if data.product_id == config.claiming.product:

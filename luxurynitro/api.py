@@ -17,9 +17,9 @@ class Client():
 
         self._public_user = None
         
-    def get_user(self) -> classes.User:
+    async def get_user(self) -> classes.User:
         "Fetches the user's data. Returns `User`."
-        res = self.client.get('/users/@me')
+        res = await self.client.get('/users/@me')
         resjson = res.json()
         
         self._public_user = classes.PublicUser(
@@ -79,9 +79,9 @@ class Client():
             ]
         )
     
-    def get_queue(self) -> classes.Queue:
+    async def get_queue(self) -> classes.Queue:
         "Fetches the global queue. Returns `Queue`."
-        res = self.client.get('/queue')
+        res = await self.client.get('/queue')
         resjson = res.json()
 
         return classes.Queue(
@@ -125,9 +125,9 @@ class Client():
             ]
         )
     
-    def get_credits(self) -> classes.Credits:
+    async def get_credits(self) -> classes.Credits:
         "Fetches the user's credits, and credit history. Returns `Credits`."
-        res = self.client.get('/users/@me/credits')
+        res = await self.client.get('/users/@me/credits')
         resjson = res.json()
 
         return classes.Credits(
@@ -143,9 +143,9 @@ class Client():
             ]
         )
     
-    def get_tickets(self) -> list[classes.Ticket]:
+    async def get_tickets(self) -> list[classes.Ticket]:
         "Fetches all of the user's tickets. Returns a list of `Ticket`."
-        res = self.client.get('/users/@me/tickets')
+        res = await self.client.get('/users/@me/tickets')
         resjson = res.json()
 
         return [
@@ -157,9 +157,9 @@ class Client():
             ) for ticket in resjson
         ]
     
-    def get_orders(self) -> list[classes.Order]:
+    async def get_orders(self) -> list[classes.Order]:
         "Fetches all of the user's orders. Returns a list of `Order`."
-        res = self.client.get('/users/@me/orders')
+        res = await self.client.get('/users/@me/orders')
         resjson = res.json()
 
         return [
@@ -191,7 +191,7 @@ class Client():
             ) for order in resjson
         ]
     
-    def create_order(self, quantity:int, token:str, anonymous:bool=False, reason:str='') -> classes.Order:
+    async def create_order(self, quantity:int, token:str, anonymous:bool=False, reason:str='') -> classes.Order:
         """Create a new order, and return the `Order`.
         
         ### Arguments:
@@ -200,7 +200,7 @@ class Client():
         - `anonymous`: bool, If true, the user will not be pinged for webhook notifications.
         - `reason`: str, Shown in credit history, used for future reference.
         """
-        res = self.client.post('/users/@me/orders',
+        res = await self.client.post('/users/@me/orders',
             json = {
                 'quantity': quantity,
                 'token': token,
@@ -210,13 +210,13 @@ class Client():
         )
         order_id = res.json()['order']
 
-        for order in self.get_orders():
+        for order in await self.get_orders():
             if order.id == order_id:
                 return order
         
         return None
 
-    def delete_order(self, order:classes.Order=None, order_id:str=None) -> int:
+    async def delete_order(self, order:classes.Order=None, order_id:str=None) -> int:
         """Delete the order provided, and return the amount refunded.
         
         Either `order` or `order_id` has to be given. If both are given, `order` takes priority.
@@ -226,11 +226,11 @@ class Client():
         if order is None and order_id is None:
             raise errors.ValidationError("one argument has to be not None")
         
-        res = self.client.delete(f'/users/@me/orders/{order.id if order is not None else order_id}')
+        res = await self.client.delete(f'/users/@me/orders/{order.id if order is not None else order_id}')
         
         return int(res.json()['refund_amount'])
 
-    def set_hit_webhook(self, webhook:str, message:str, emoji_map:dict={}) -> None:
+    async def set_hit_webhook(self, webhook:str, message:str, emoji_map:dict={}) -> None:
         """Set the Discord Webhook that should be fired when a nitro is sniped.
 
         `errors.ValidationError` will be raised if any arguments are invalid.
@@ -268,7 +268,7 @@ class Client():
                 raise errors.ValidationError(f"missing emojis: {', '.join(x for x in available_keys)}")
         
 
-        self.client.post('/users/@me/webhook',
+        await self.client.post('/users/@me/webhook',
             json = {
                 'webhook': {
                     'id': webhook_id,
