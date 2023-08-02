@@ -12,13 +12,13 @@ If you would like to use a different language for the bot, replace your lang.yml
 
 If your language isn't in there, then you will have to translate yourself. We are adding more translations as soon as we can.
 
-If you would like to contribute, pull requests are highly appriciated!
+If you would like to contribute, pull requests are highly appreciated!
 
 ## Issues / Bugs
 Report all bugs in the Issues tab, thanks!
 
 ## Contributing
-All and any pull requests are appriciated, however I cannot say whether they will be accepted or not.
+All and any pull requests are appreciated, however I cannot say whether they will be accepted or not.
 
 ## Suggestions
 Please open an issue, explaining your suggestion, and how it would help the project!
