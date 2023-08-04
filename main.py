@@ -11,7 +11,7 @@ import utils
 from utils import config
 import luxurynitro
 
-__version__ = 'v1.0.2'
+__version__ = 'v1.1.0'
 
 try:
     github_data = httpx.get("https://api.github.com/repos/ItsChasa/LuxuryNitro-Reseller/releases/latest").json()
@@ -29,6 +29,7 @@ if app_latest_ver != __version__:
     print(app_latest_ver_link)
     print(f"You're using {__version__}, latest version is {app_latest_ver}")
     print("-------------------")
+    exit()
 print()
 
 global_credits = 0
@@ -292,6 +293,7 @@ async def queueEmbedLoop():
     await client.wait_until_ready()
     try:
         user = await api.get_user()
+        queue = await api.get_queue()
     except luxurynitro.errors.APIError as exc:
         await log.warn(f"{utils.lang.embed_fetch_error} {exc.message}")
     except luxurynitro.errors.RetryTimeout as exc:
@@ -302,13 +304,23 @@ async def queueEmbedLoop():
         orders = user.orders
         largest_gift_count_length = 0
 
+        queue_ids = []
+        for order in queue.queue:
+            queue_ids.append(order.id)
+
+        order_to_queue = {}
+
         for order in orders:
             if not order.status.completed:
                 if len(str(order.quantity) + str(order.received)) > largest_gift_count_length:
                     largest_gift_count_length = len(str(order.quantity) + str(order.received))
+                
+                order_to_queue[order.id] = queue_ids.index(order.id)
             
             global_orders[order.id] = order
         
+        orders = sorted(orders, key=lambda order: order_to_queue.get(order.id, 9999))
+
         description = ""
         queue_total = 0
         
@@ -322,7 +334,7 @@ async def queueEmbedLoop():
                         display_name = f"<@{result[2]}>"
                 else:
                     display_name = utils.lang.anonymous_upper
-                description += f"\n{config.queue_webhook.emojis['claiming'] if order.status.claiming else config.queue_webhook.emojis['in_queue']}    ` {order.received}/{order.quantity}{''.join(' ' for _ in range(largest_gift_count_length - len(str(order.quantity) + str(order.received))))} {utils.lang.queue_gifts} ` {display_name}{' `'+ utils.convertHMS(order.eta.completed) + '`' if config.queue_webhook.show_eta else ''}"
+                description += f"\n{config.queue_webhook.emojis['claiming'] if order.status.claiming else config.queue_webhook.emojis['in_queue']}    ` {order.received}/{order.quantity}{''.join(' ' for _ in range(largest_gift_count_length - len(str(order.quantity) + str(order.received))))} {utils.lang.queue_gifts} ` {display_name}{' `'+ utils.convertHMS(order.eta.next_gift) + '`' if config.queue_webhook.show_eta else ''}"
                 queue_total += order.quantity - order.received
             else:
                 db.edit('orders', {'completed': 1}, {'api_id': order.id})
