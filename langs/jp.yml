@@ -13,6 +13,7 @@ bool_false: "いいえ"
 anonymous: "匿名"
 anonymous_upper: "匿名"
 embed_fetch_error: "キュー埋め込みの注文を取得できませんでした："
+new_update_available_log: "新しいアップデートが利用可能です: ({version}) (現在のバージョンは {current_version} です)。ダウンロード: {download_url}"
 
 # /claim
 cmd_claim: claim

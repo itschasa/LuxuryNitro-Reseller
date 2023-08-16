@@ -13,6 +13,7 @@ bool_false: "falso"
 anonymous: anonimo
 anonymous_upper: Anonimo
 embed_fetch_error: "Error al obtener los pedidos para el embed de la Fila:"
+new_update_available_log: "Nueva actualización disponible: ({version}) (estás en la versión {current_version}). Descargar: {download_url}"
 
 # /claim
 cmd_claim: reclamar

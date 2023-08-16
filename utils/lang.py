@@ -13,6 +13,7 @@ bool_false = _lang.get('bool_false', "false")
 anonymous = _lang.get('anonymous', "anonymous")
 anonymous_upper = _lang.get('anonymous_upper', "Anonymous")
 embed_fetch_error = _lang.get('embed_fetch_error', "Failed to get orders for queue embed:")
+new_update_available_log = _lang.get('new_update_available_log', "New Update Available: ({version}) (you are on {current_version}). Download: {download_url}")
 
 cmd_claim = _lang.get('cmd_claim', "claim")
 cmd_claim_desc = _lang.get('cmd_claim_desc', "Claim credits with a product ID.")

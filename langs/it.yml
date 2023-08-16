@@ -12,6 +12,7 @@ bool_false: "falso"
 anonymous: anonimo
 anonymous_upper: Anonimo
 embed_fetch_error: "Impossibile ottenere gli ordini per la queue nell'embed"
+new_update_available_log: "Nuovo aggiornamento disponibile: ({version}) (sei alla versione {current_version}). Download: {download_url}"
 
 # /claim
 cmd_claim: riscatto

@@ -5,32 +5,28 @@ import time
 import httpx
 import asyncio
 import base64
-import logging
 
 import utils
 from utils import config
 import luxurynitro
 
-__version__ = 'v1.1.0'
+__version__ = 'v1.1.1'
 
-try:
-    github_data = httpx.get("https://api.github.com/repos/ItsChasa/LuxuryNitro-Reseller/releases/latest").json()
-    app_latest_ver = github_data['tag_name']
-    app_latest_ver_link = github_data['html_url']
-except:
-    app_latest_ver = __version__
-    app_latest_ver_link = "null"
+last_update_ping = int(time.time())
 
-print("Coded with <3 by chasa | https://github.com/itschasa/LuxuryNitro-Reseller")
-print("If you have any issues, create an issue using the link above. :D")
-if app_latest_ver != __version__:
-    print("-------------------")
-    print("!!! You are using an outdated version! Update with the link below!")
-    print(app_latest_ver_link)
-    print(f"You're using {__version__}, latest version is {app_latest_ver}")
-    print("-------------------")
-    exit()
-print()
+async def latest_version_check():
+    try:
+        async with httpx.AsyncClient() as client:
+            github_data = await client.get("https://api.github.com/repos/ItsChasa/LuxuryNitro-Reseller/releases/latest")
+        
+        github_data_json = github_data.json()
+        app_latest_ver = github_data_json['tag_name']
+        app_latest_ver_link = github_data_json['html_url']
+    except:
+        app_latest_ver = __version__
+        app_latest_ver_link = "null"
+
+    return app_latest_ver_link, app_latest_ver
 
 global_credits = 0
 global_orders = {}
@@ -59,19 +55,19 @@ class log:
     @staticmethod
     async def error(message):
         timenow = int(time.time())
-        return await logs_channel.send(f"<t:{timenow}:d> <t:{timenow}:t> `🔴` {message}")
+        return await logs_channel.send(f"<t:{timenow}:d> <t:{timenow}:t> `🔴` {message}", suppress_embeds=True)
     @staticmethod
     async def success(message):
         timenow = int(time.time())
-        return await logs_channel.send(f"<t:{timenow}:d> <t:{timenow}:t> `🟢` {message}")
+        return await logs_channel.send(f"<t:{timenow}:d> <t:{timenow}:t> `🟢` {message}", suppress_embeds=True)
     @staticmethod
     async def warn(message):
         timenow = int(time.time())
-        return await logs_channel.send(f"<t:{timenow}:d> <t:{timenow}:t> `🟡` {message}")
+        return await logs_channel.send(f"<t:{timenow}:d> <t:{timenow}:t> `🟡` {message}", suppress_embeds=True)
     @staticmethod
     async def info(message):
         timenow = int(time.time())
-        return await logs_channel.send(f"<t:{timenow}:d> <t:{timenow}:t> `🔵` {message}")
+        return await logs_channel.send(f"<t:{timenow}:d> <t:{timenow}:t> `🔵` {message}", suppress_embeds=True)
 
 async def resp_success(interaction: discord.Interaction, msg:str, hidden=True, followup=False):
     if followup:
@@ -135,7 +131,7 @@ async def purchase(interaction: discord.Interaction, amount: int, token: str, an
                     'user': interaction.user.mention,
                     'amount': amount,
                     'global_credits': global_credits
-                }))
+                }) + ''.join(f' <@{x}>' for x in config.discord_admins))
             
             else:
                 await resp_error(interaction, utils.lang.process(utils.lang.general_error, {'error': exc.message}), followup=True)
@@ -299,6 +295,16 @@ async def queueEmbedLoop():
     except luxurynitro.errors.RetryTimeout as exc:
         await log.warn(f"{utils.lang.embed_fetch_error} {exc.message}" + "\n- ".join(f"`{e}`" for e in exc.errors))
     else:
+        current_time = int(time.time())
+        download_url, version_name = await latest_version_check()
+        if version_name != __version__ and last_update_ping + 86400 < current_time:
+            await log.warn(utils.lang.process(utils.lang.new_update_available_log, {
+                "version": version_name,
+                "current_version": __version__,
+                "download_url": download_url
+            }) + ''.join(f' <@{x}>' for x in config.discord_admins))
+            last_update_ping = current_time
+        
         db = utils.database.Connection()
         global_credits = user.credits
         orders = user.orders
@@ -308,14 +314,17 @@ async def queueEmbedLoop():
         for order in queue.queue:
             queue_ids.append(order.id)
 
-        order_to_queue = {}
+        order_to_queue: dict[str, int] = {}
 
         for order in orders:
             if not order.status.completed:
                 if len(str(order.quantity) + str(order.received)) > largest_gift_count_length:
                     largest_gift_count_length = len(str(order.quantity) + str(order.received))
                 
-                order_to_queue[order.id] = queue_ids.index(order.id)
+                if order.status.in_queue:  
+                    order_to_queue[order.id] = int(order.status.status_text.split('/')[0].replace('(', ''))
+                else: # has to be on status=1 (claiming)
+                    order_to_queue[order.id] = 0
             
             global_orders[order.id] = order
         
@@ -343,13 +352,12 @@ async def queueEmbedLoop():
             title = f"{config.queue_webhook.title_emoji}  {utils.lang.process(utils.lang.queue_title, {'name':api_user.display_name})}",
             description = "🎁    `" + utils.lang.process(utils.lang.queue_length, {'length': queue_total}) + "`\n" + description,
             color = config.queue_webhook.color
-        
         ).set_footer(
             text = utils.lang.queue_footer_text,
             icon_url = config.queue_webhook.footer_icon
         )
 
-        if queue_message_id is not None:
+        if queue_message_id:
             try:
                 async with httpx.AsyncClient() as rclient:
                     res = await rclient.patch(config.queue_webhook.url+f'/messages/{queue_message_id}', json={'embeds': [embed.to_dict()]})
@@ -358,7 +366,7 @@ async def queueEmbedLoop():
             except:
                 pass
         
-        if queue_message_id is None:
+        if not queue_message_id:
             try:
                 async with httpx.AsyncClient() as rclient:
                     res = await rclient.post(config.queue_webhook.url + '?wait=true', json={'embeds': [embed.to_dict()]})
@@ -374,7 +382,19 @@ async def queueEmbedLoop():
 
 async def startup():
     global api, api_user, global_credits
-    print("Connecting to LuxuryNitro API...")
+    print("Coded with <3 by chasa | https://github.com/itschasa/LuxuryNitro-Reseller")
+    print("If you have any issues, create an issue using the link above. :D")
+    
+    download_url, version_name = await latest_version_check()
+    if version_name != __version__:
+        print("\n-------------------")
+        print("!!! You are using an outdated version! Update with the link below!")
+        print(download_url)
+        print(f"You're using {__version__}, latest version is {version_name}")
+        print("-------------------")
+        exit()
+    
+    print("\nConnecting to LuxuryNitro API...")
     api = luxurynitro.Client(config.api_key)
     try: api_user = await api.get_user()
     except luxurynitro.errors.APIError as exc:
@@ -382,8 +402,8 @@ async def startup():
         exit()
     global_credits = api_user.credits
     
-    print("Setting hit webhook...")
-    await api.set_hit_webhook(config.hit_webhook.url, config.hit_webhook.message, config.hit_webhook.emojis)
+    #print("Setting hit webhook...")
+    #await api.set_hit_webhook(config.hit_webhook.url, config.hit_webhook.message, config.hit_webhook.emojis)
 
     print("Logging into Discord...")
     discord.utils.setup_logging(root=False)

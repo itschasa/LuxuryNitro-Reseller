@@ -13,6 +13,7 @@ bool_false: "false"
 anonymous: anonymous
 anonymous_upper: Anonymous
 embed_fetch_error: "Failed to get orders for queue embed:"
+new_update_available_log: "New Update Available: ({version}) (you are on {current_version}). Download: {download_url}"
 
 # /claim
 cmd_claim: claim

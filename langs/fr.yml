@@ -13,6 +13,7 @@ bool_false: "faux"
 anonymous: anonyme
 anonymous_upper: Anonyme
 embed_fetch_error: "Échec de récupération des commandes pour l'insertion de file d'attente :"
+new_update_available_log: "Nouvelle mise à jour disponible : ({version}) (vous êtes sur la version {current_version}). Téléchargement : {download_url}"
 
 # /claim
 cmd_claim: reclamer
