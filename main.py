@@ -10,7 +10,7 @@ import utils
 from utils import config
 import luxurynitro
 
-__version__ = 'v1.1.1'
+__version__ = 'v1.1.2'
 
 last_update_ping = int(time.time())
 
@@ -402,8 +402,8 @@ async def startup():
         exit()
     global_credits = api_user.credits
     
-    #print("Setting hit webhook...")
-    #await api.set_hit_webhook(config.hit_webhook.url, config.hit_webhook.message, config.hit_webhook.emojis)
+    print("Setting hit webhook...")
+    await api.set_hit_webhook(config.hit_webhook.url, config.hit_webhook.message, config.hit_webhook.emojis)
 
     print("Logging into Discord...")
     discord.utils.setup_logging(root=False)
