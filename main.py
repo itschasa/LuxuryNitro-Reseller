@@ -239,36 +239,46 @@ async def get_orders_description(user_id, all_orders, page=1):
     db = utils.database.Connection()
     results = db.query('orders', ['api_id', 'user', 'discord_id', 'anonymous', 'completed'], {} if all_orders else {'user': user_id}, False)[::-1]
     refunded_orders = []
+    invalid_token = []
+    status = ""
+
     try:
         credits_history = await api.get_credits()
     except Exception:
-        return '', 0
+        return '', f'0/{len(results)}'
     else:
         credits_history = credits_history.history
 
     for creditchange in credits_history:
-        if "Cancelled" in creditchange.reason:
-            refunded_orders.append(creditchange.reason[1:5])
-
+        order_id = re.findall("#[0-9]{4}", creditchange.reason)
+        if len(order_id) == 1 and creditchange.change > 0:
+            if "Token was Invalid" in creditchange.reason:
+                invalid_token.append(order_id[0].replace("#", ''))
+            else:
+                refunded_orders.append(order_id[0].replace("#", ''))
+                
     try:
         data = utils.split_list(results)[page-1]
         description = ''
         for order in data:
             if order[1] not in description:
-                if order[1] in refunded_orders:
-                    description += f"~~`#{order[1]}` | " + utils.lang.process(utils.lang.cmd_orders_success_data, {
-                        'received': global_orders[order[1]].received,
-                        'quantity': global_orders[order[1]].quantity,
-                        'user': f'<@{order[2]}>',
-                        'bool': utils.lang.bool_true if order[4] == 1 else utils.lang.bool_false
-                    }) + "~~ **REFUNDED**\n"
+                if global_orders[order[1]].received == global_orders[order[1]].quantity and global_orders[order[1]].quantity != 0:
+                    status = utils.lang.cmd_orders_completed
+                elif order[1] in refunded_orders:
+                    status = utils.lang.cmd_orders_cancelled
+                elif order[1] in invalid_token:
+                    status = utils.lang.cmd_orders_token_invalidated
                 else:
-                    description += f"`#{order[1]}` | " + utils.lang.process(utils.lang.cmd_orders_success_data, {
-                        'received': global_orders[order[1]].received,
-                        'quantity': global_orders[order[1]].quantity,
-                        'user': f'<@{order[2]}>',
-                        'bool': utils.lang.bool_true if order[4] == 1 else utils.lang.bool_false
-                    }) + "\n"
+                    status = utils.lang.cmd_orders_in_queue
+
+                description += f"`#{order[1]}` | " + utils.lang.process(utils.lang.cmd_orders_success_data, {
+                    'received': global_orders[order[1]].received,
+                    'quantity': global_orders[order[1]].quantity,
+                    'user': f'<@{order[2]}>',
+                    'anonymous': utils.lang.bool_true if order[4] == 1 else utils.lang.bool_false,
+                    'status': '**' + status + '**'
+                }) + "\n"
+
     except Exception:
         db.close()
         return '', f'0/{len(results)}'
