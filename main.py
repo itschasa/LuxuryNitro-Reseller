@@ -250,9 +250,12 @@ async def get_orders_description(user_id, all_orders, page=1):
         credits_history = credits_history.history
 
     for creditchange in credits_history:
+        if "basics" in creditchange.reason.lower():
+            continue
+        
         order_id = re.findall("#[0-9]{4}", creditchange.reason)
         if len(order_id) == 1 and creditchange.change > 0:
-            if "Token was Invalid" in creditchange.reason:
+            if "token was invalid" in creditchange.reason.lower():
                 invalid_token.append(order_id[0].replace("#", ''))
             else:
                 refunded_orders.append(order_id[0].replace("#", ''))
