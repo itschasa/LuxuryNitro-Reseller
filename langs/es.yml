@@ -71,7 +71,13 @@ cmd_orders_desc: Muestra todos tus pedidos.
 cmd_orders_arg_page: Que pagina ver.
 cmd_orders_arg_all_orders: (Solo para administradores) Muestra todos los pedidos.
 cmd_orders_success: "Se encontraron {total} pedidos."
-cmd_orders_success_data: "{received}/{quantity} reclamados por {user}, anonimo={bool}"
+cmd_orders_success_data: "Regalos: {received}/{quantity} | Usuario: {user} | Anónimo: {anonymous} | Estado: {status}"
+cmd_orders_completed: "Completado"
+cmd_orders_refunded: "Fallido"
+cmd_orders_user_cancelled: "Cancelado por Usuario"
+cmd_orders_admin_cancelled: "Fallido por Admin"
+cmd_orders_in_queue: "En Cola"
+cmd_orders_token_invalidated: "Token Inválido"
 
 # /buy
 cmd_buy: compra

@@ -71,7 +71,13 @@ cmd_orders_desc: Liste toutes vos commandes.
 cmd_orders_arg_page: Quelle page afficher.
 cmd_orders_arg_all_orders: (Réservé aux administrateurs) Liste toutes les commandes.
 cmd_orders_success: "{total} commandes récupérées."
-cmd_orders_success_data: "{received}/{quantity} réclamés par {user}, anonyme={bool}"
+cmd_orders_success_data: "Cadeaux: {received}/{quantity} | Utilisateur: {user} | Anonyme: {anonymous} | Statut: {status}"
+cmd_orders_completed: "Terminé"
+cmd_orders_refunded: "Échoué"
+cmd_orders_user_cancelled: "Annulé par l'utilisateur"
+cmd_orders_admin_cancelled: "Échoué"
+cmd_orders_in_queue: "En file d'attente"
+cmd_orders_token_invalidated: "Jeton invalide"
 
 # /buy
 cmd_buy: acheter

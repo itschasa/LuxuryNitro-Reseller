@@ -6,13 +6,17 @@ discord_admins:
 # https://luxurynitro.com/settings
 api_key: luxurynitro_api_key_here
 
+# this can be ignored for 99% of people
+# what database the program will use 
 database_name: data/database.db
 
 claiming:
   # sellix, sellapp, or sellpass
+  # is your platform not here? request it in an issue on github!
   mode: sellix
   
   # THIS IS IMPORTANT, set it to the current time you started reselling using this site (https://unixtimestamp.com/) 
+  # This is used to prevent users claiming credits from old purchases. (Credit Duplication, aka: bad stuff)
   start_time: 1690835910
   
   # sellix:   https://dashboard.sellix.io/settings/security
@@ -23,6 +27,7 @@ claiming:
   # sellix  (only if u have more than 1 shop on your account): https://developers.sellix.io/#authentication
   # sellapp (only if u have more than 1 shop on your account): https://developer.sell.app/authentication#multiple-stores
   # sellpass: open ur shop > open devtools > click network > refresh page > find ID shown in image: https://i.imgur.com/OKzlZ94.png
+  # IF YOU ARE USING SELLIX OR SELLAPP, AND YOU DONT HAVE MORE THAN 1 SHOP ON YOUR ACCOUNT, LEAVE IT AS null
   merchant: null
 
   # sellix:   https://dashboard.sellix.io/products > ID

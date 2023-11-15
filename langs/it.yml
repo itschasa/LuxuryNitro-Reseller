@@ -1,6 +1,7 @@
-# Language File - Italian
+# File Lingua - Italiano
+
 # Se la tua comunita non parla inglese, usa un linguaggio appropriato , o copia il tuo.
-# If some text appears in English, then you are missing some fields. Copy the original files on github, and find the missing fields.
+# Se del testo appare in inglese, allora mancano alcuni campi. Copia i file originali su GitHub e trova i campi mancanti.
 
 # general terms
 no_admin: Non sei un admin!
@@ -70,7 +71,13 @@ cmd_orders_desc: Lista di tutti gli ordini.
 cmd_orders_arg_page: Quale pagina visualizzare.
 cmd_orders_arg_all_orders: (Solo Admin) Lista di tutti gli ordini.
 cmd_orders_success: "Fetchati {total} ordini."
-cmd_orders_success_data: "{received}/{quantity} riscattati su {user}, anonymous={bool}"
+cmd_orders_success_data: "Regali: {received}/{quantity} | Utente: {user} | Anonimo: {anonymous} | Stato: {status}"
+cmd_orders_completed: "Completato"
+cmd_orders_refunded: "Fallito"
+cmd_orders_user_cancelled: "Annullato dall'Utente"
+cmd_orders_admin_cancelled: "Fallito"
+cmd_orders_in_queue: "In Coda"
+cmd_orders_token_invalidated: "Token Non Valido"
 
 # /buy
 cmd_buy: compra

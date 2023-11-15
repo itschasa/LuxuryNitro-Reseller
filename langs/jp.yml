@@ -71,7 +71,13 @@ cmd_orders_desc: すべての注文をリストします。
 cmd_orders_arg_page: 表示するページ番号。
 cmd_orders_arg_all_orders: (管理者専用) すべての注文をリストします。
 cmd_orders_success: "{total}件の注文を取得しました。"
-cmd_orders_success_data: "{user}の{received}/{quantity}がクレームされ、匿名={bool}です。"
+cmd_orders_success_data: "ギフト: {received}/{quantity} | ユーザー: {user} | 匿名: {anonymous} | ステータス: {status}"
+cmd_orders_completed: "完了"
+cmd_orders_refunded: "失敗"
+cmd_orders_user_cancelled: "キャンセル"
+cmd_orders_admin_cancelled: "失敗"
+cmd_orders_in_queue: "キュー中"
+cmd_orders_token_invalidated: "トークンが無効"
 
 # /buy
 cmd_buy: buy

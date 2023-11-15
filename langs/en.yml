@@ -13,7 +13,6 @@ bool_false: "false"
 anonymous: anonymous
 anonymous_upper: Anonymous
 embed_fetch_error: "Failed to get orders for queue embed:"
-new_update_available_log: "New Update Available: ({version}) (you are on {current_version}). Download: {download_url}"
 
 # /claim
 cmd_claim: claim
@@ -71,7 +70,13 @@ cmd_orders_desc: Lists all of your orders.
 cmd_orders_arg_page: What page to view.
 cmd_orders_arg_all_orders: (Admins Only) Lists all orders.
 cmd_orders_success: "Fetched {total} orders."
-cmd_orders_success_data: "{received}/{quantity} claimed on {user}, anonymous={bool}"
+cmd_orders_success_data: "Gifts: {received}/{quantity} | User: {user} | Anonymous: {anonymous} | Status: {status}"
+cmd_orders_completed: "Completed"
+cmd_orders_refunded: "Failed"
+cmd_orders_user_cancelled: "Cancelled"
+cmd_orders_admin_cancelled: "Failed"
+cmd_orders_in_queue: "In Queue"
+cmd_orders_token_invalidated: "Token Invalid"
 
 # /buy
 cmd_buy: buy

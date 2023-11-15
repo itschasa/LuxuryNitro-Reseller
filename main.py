@@ -5,12 +5,13 @@ import time
 import httpx
 import asyncio
 import base64
+import re
 
 import utils
 from utils import config
 import luxurynitro
 
-__version__ = 'v1.1.2'
+__version__ = 'v1.2.0'
 
 last_update_ping = int(time.time())
 
@@ -29,7 +30,7 @@ async def latest_version_check():
     return app_latest_ver_link, app_latest_ver
 
 global_credits = 0
-global_orders = {}
+global_orders: dict[str, luxurynitro.Order] = {}
 
 f = open('data/queue.txt', 'r')
 queue_message_id = f.read()
@@ -239,8 +240,9 @@ async def get_orders_description(user_id, all_orders, page=1):
     db = utils.database.Connection()
     results = db.query('orders', ['api_id', 'user', 'discord_id', 'anonymous', 'completed'], {} if all_orders else {'user': user_id}, False)[::-1]
     refunded_orders = []
-    invalid_token = []
-    status = ""
+    invalid_orders = []
+    user_cancelled_orders = []
+    admin_cancelled_orders = []
 
     try:
         credits_history = await api.get_credits()
@@ -249,28 +251,53 @@ async def get_orders_description(user_id, all_orders, page=1):
     else:
         credits_history = credits_history.history
 
-    for creditchange in credits_history:
-        if "basics" in creditchange.reason.lower():
+    for credit_change in credits_history:
+        # If a credit change was because of a basic refund, ignore it.
+        if "basics" in credit_change.reason.lower():
             continue
         
-        order_id = re.findall("#[0-9]{4}", creditchange.reason)
-        if len(order_id) == 1 and creditchange.change > 0:
-            if "token was invalid" in creditchange.reason.lower():
-                invalid_token.append(order_id[0].replace("#", ''))
-            else:
-                refunded_orders.append(order_id[0].replace("#", ''))
+        order_id: list[str] = re.findall(r"#[0-9]{4,}", credit_change.reason) # Order IDs are currently 4 digits long, however they could be longer in the future.
+        if len(order_id) == 1:
+            raw_order_id = order_id[0].replace("#", '')
+            
+            if credit_change.change > 0:
+
+                if "token was invalid" in credit_change.reason.lower():
+                    invalid_orders.append(raw_order_id)
+                
+                elif "cancelled by user" in credit_change.reason.lower():
+                    user_cancelled_orders.append(raw_order_id)
+
+                else:
+                    # Refunded for another reason other than Token Invalid and Cancelled by User.
+                    refunded_orders.append(raw_order_id)
+            
+            elif credit_change.change == 0:
+                # In rare cases, an order can be cancelled, without refund, by an admin (most commonly after chargebacks).
+                admin_cancelled_orders.append(raw_order_id)
                 
     try:
         data = utils.split_list(results)[page-1]
         description = ''
         for order in data:
             if order[1] not in description:
-                if global_orders[order[1]].received == global_orders[order[1]].quantity and global_orders[order[1]].quantity != 0:
-                    status = utils.lang.cmd_orders_completed
-                elif order[1] in refunded_orders:
-                    status = utils.lang.cmd_orders_cancelled
-                elif order[1] in invalid_token:
+                
+                if order[1] in refunded_orders:
+                    # "Refunded" does not mean refunded to the user, but to the reseller, so "Cancelled" should be a more appropriate response.
+                    status = utils.lang.cmd_orders_refunded
+                
+                elif order[1] in invalid_orders:
                     status = utils.lang.cmd_orders_token_invalidated
+
+                elif order[1] in user_cancelled_orders:
+                    status = utils.lang.cmd_orders_user_cancelled
+                
+                elif order[1] in admin_cancelled_orders:
+                    status = utils.lang.cmd_orders_admin_cancelled
+
+                elif global_orders[order[1]].status.completed:
+                    status = utils.lang.cmd_orders_completed
+                
                 else:
                     status = utils.lang.cmd_orders_in_queue
 
@@ -433,6 +460,9 @@ async def startup():
     try: api_user = await api.get_user()
     except luxurynitro.errors.APIError as exc:
         print(f"Error connecting to LuxuryNitro API ({api._base_url}): {exc.message}")
+        if exc.response.status_code == 401:
+            print("It seems like your LuxuryNitro API key is invalid. You can get a new one at https://luxurynitro.com/settings")
+            print("Make sure to paste the full key, including the 'api_' part.")
         exit()
     global_credits = api_user.credits
     
