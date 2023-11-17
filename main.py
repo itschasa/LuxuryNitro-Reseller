@@ -346,7 +346,7 @@ async def on_ready():
     
 @tasks.loop(seconds = 30)
 async def queueEmbedLoop():
-    global queue_message_id, global_credits, global_orders
+    global queue_message_id, global_credits, global_orders, last_update_ping
     await client.wait_until_ready()
     try:
         user = await api.get_user()
