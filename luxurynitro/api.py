@@ -5,7 +5,7 @@ from . import errors
 import re
 
 class Client():
-    def __init__(self, api_key: str, base_url='https://luxurynitro.com/api/v1', *args) -> None:
+    def __init__(self, api_key: str, base_url='https://dash.luxurynitro.com/api/v1', *args) -> None:
         self.api_key = api_key
         self._base_url = base_url
         
