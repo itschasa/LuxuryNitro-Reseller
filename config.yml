@@ -3,7 +3,7 @@ discord_admins:
 - your_discord_id_here
 - your_co-owner_discord_id_here (if you have one, otherwise delete :D)
 
-# https://luxurynitro.com/settings
+# https://dash.luxurynitro.com/settings
 api_key: luxurynitro_api_key_here
 
 # this can be ignored for 99% of people
