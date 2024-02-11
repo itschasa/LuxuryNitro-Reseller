@@ -366,7 +366,8 @@ async def vpsEmbedLoop():
 
         extensions = '\n'.join(
             [
-                f'{config.vps_webhook.emojis["working"]} ``Instance {stats.instance_id}`` - ``{stats.servers} Guilds / {stats.alts} alts``'
+                f'{config.vps_webhook.emojis["offline"] if stats.last_seen < current_time - 45 else config.vps_webhook.emojis["online"]} ``Instance {stats.instance_id}`` - ``{stats.servers} Guilds / {stats.alts} alts``'
+
                 for stats in
                 vps_stats_sorted])
 
