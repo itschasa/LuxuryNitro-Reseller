@@ -74,6 +74,17 @@ queue_webhook:
 
   show_eta: true
 
+# embed for vps stats 
+vps_webhook:
+  url: webhook_url_for_vps_stats_channel
+
+  # 1. pick a colour: https://google.com/search?q=color+picker
+  # 2. convert to a decimal: https://www.rapidtables.com/convert/number/hex-to-decimal.html
+  color: 11032831
+
+  emojis:
+    working: <a:working:1206207001189949450>
+    
 # private logs channel
 logs_channel: channel_id_for_your_logs
 
