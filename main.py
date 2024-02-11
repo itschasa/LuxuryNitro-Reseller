@@ -362,6 +362,7 @@ async def vpsEmbedLoop():
     except luxurynitro.errors.RetryTimeout as exc:
         await log.warn(f"{utils.lang.embed_fetch_error} {exc.message}" + "\n- ".join(f"`{e}`" for e in exc.errors))
     else:
+        current_time = int(time.time())
         vps_stats_sorted = sorted(vps_stats, key=lambda x: x.instance_id)
 
         extensions = '\n'.join(
