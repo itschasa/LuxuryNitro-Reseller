@@ -93,6 +93,8 @@ queue_gifts: Gifts
 queue_title: "{name} Queue"
 queue_length: "Queue Length: {length}"
 
-# vps embed
-vps_footer_text: Update every 30 seconds
-vps_title: "Sniper Instances"
+# vps stats embed
+vps_footer_text: Updates every 30 seconds
+vps_title: Sniper Instances
+vps_desc: "If there are instances offline, it might takes longer to snipe."
+vps_data: "`Instance {id}` - `{guilds} Guilds / {alts} Alts`"
