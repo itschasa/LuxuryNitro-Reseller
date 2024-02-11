@@ -370,7 +370,7 @@ async def vpsEmbedLoop():
                 vps_stats_sorted])
 
         embed = discord.Embed(
-            title = f"Sniper Instances",
+            title = f"{utils.lang.process(utils.lang.vps_title)}",
             description = "If there are instances offline, it might takes longer to snipe.\n\n>>> " + extensions,
             color = config.vps_webhook.color
         )
