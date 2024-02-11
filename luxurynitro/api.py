@@ -79,6 +79,20 @@ class Client():
             ]
         )
     
+    async def get_vps_stats(self) -> list[classes.VPS]:
+        "Fetches the vps stats. Returns `vps`."
+        res = await self.client.get('/vps-stats')
+        resjson = res.json()
+
+        return [
+            classes.VPS(
+                alts = instance['alts'],
+                instance_id = instance["instance_id"],
+                last_seen = instance["last_seen"],
+                servers = instance["servers"]
+            ) for instance in resjson
+        ]
+
     async def get_queue(self) -> classes.Queue:
         "Fetches the global queue. Returns `Queue`."
         res = await self.client.get('/queue')
