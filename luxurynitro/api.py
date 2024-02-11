@@ -85,7 +85,7 @@ class Client():
         res = await self.client.get('/vps-stats')
         resjson = res.json()
 
-        data = sorted(resjson, key = lambda x: x['instance_id'])
+        data = sorted(resjson, key = lambda x: int(x['instance_id']))
 
         return [
             classes.VPS(
