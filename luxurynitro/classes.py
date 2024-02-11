@@ -85,7 +85,6 @@ class Stats:
     support_time: int
     total_claims: int
 
-
 @dataclass
 class Ticket:
     timestamp: int

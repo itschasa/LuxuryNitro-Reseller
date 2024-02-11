@@ -80,9 +80,12 @@ class Client():
         )
     
     async def get_vps_stats(self) -> list[classes.VPS]:
-        "Fetches the vps stats. Returns `vps`."
+        "Fetches the vps stats. Returns list of `VPS`."
+
         res = await self.client.get('/vps-stats')
         resjson = res.json()
+
+data = sorted(resjson, key = lamda x: x['instance_id']
 
         return [
             classes.VPS(
