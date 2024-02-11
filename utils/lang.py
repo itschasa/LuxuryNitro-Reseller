@@ -87,6 +87,8 @@ queue_length = _lang.get('queue_length', "Queue Length: {length}")
 
 vps_footer_text = _lang.get('vps_footer_text', "Updates every 30 seconds")
 vps_title = _lang.get('vps_title', "Sniper Instances")
+vps_desc = _lang.get('vps_desc', "If there are instances offline, it might takes longer to snipe.")
+vps_data = _lang.get('vps_data', "`Instance {id}` - `{guilds} Guilds / {alts} Alts`")
 
 def process(lang_str:str, args:dict={}) -> str:
     return lang_str.format(**args)
