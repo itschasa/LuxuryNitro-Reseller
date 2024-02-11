@@ -90,7 +90,8 @@ class Client():
                 instance_id = instance["instance_id"],
                 last_seen = instance["last_seen"],
                 servers = instance["servers"]
-            ) for instance in resjson
+            ) for instance in data
+
         ]
 
     async def get_queue(self) -> classes.Queue:
