@@ -363,14 +363,13 @@ async def vpsEmbedLoop():
         await log.warn(f"{utils.lang.embed_fetch_error} {exc.message}" + "\n- ".join(f"`{e}`" for e in exc.errors))
     else:
         current_time = int(time.time())
-        vps_stats_sorted = sorted(vps_stats, key=lambda x: x.instance_id)
 
         extensions = '\n'.join(
             [
                 f'{config.vps_webhook.emojis["offline"] if stats.last_seen < current_time - 45 else config.vps_webhook.emojis["online"]} ``Instance {stats.instance_id}`` - ``{stats.servers} Guilds / {stats.alts} alts``'
-
-                for stats in
-                vps_stats_sorted])
+                for stats in vps_stats_sorted
+            ]
+        )
 
         embed = discord.Embed(
             title = f"{utils.lang.process(utils.lang.vps_title)}",
