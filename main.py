@@ -373,6 +373,9 @@ async def vpsEmbedLoop():
             title = f"{utils.lang.process(utils.lang.vps_title)}",
             description = "If there are instances offline, it might takes longer to snipe.\n\n>>> " + extensions,
             color = config.vps_webhook.color
+        ).set_footer(
+            text=utils.lang.vps_footer_text,
+            icon_url=config.vps_webhook.footer_icon
         )
 
 
