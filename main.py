@@ -37,6 +37,11 @@ queue_message_id = f.read()
 f.close()
 if queue_message_id == '': queue_message_id = None
 
+f = open('data/vps.txt', 'r')
+vps_message_id = f.read()
+f.close()
+if vps_message_id == '': vps_message_id = None
+
 intents = discord.Intents.default()
 intents.message_content = True
 client = discord.Client(intents=intents)
@@ -343,7 +348,57 @@ async def on_ready():
     
     await tree.sync()
     await queueEmbedLoop.start()
-    
+    await vpsEmbedLoop.start()
+
+@tasks.loop(seconds=30)
+async def vpsEmbedLoop():
+    global vps_message_id, last_update_ping
+    await client.wait_until_ready()
+    try:
+        vps_stats = await api.get_vps_stats()
+    except luxurynitro.errors.APIError as exc:
+        await log.warn(f"{utils.lang.embed_fetch_error} {exc.message}")
+    except luxurynitro.errors.RetryTimeout as exc:
+        await log.warn(f"{utils.lang.embed_fetch_error} {exc.message}" + "\n- ".join(f"`{e}`" for e in exc.errors))
+    else:
+        vps_stats_sorted = sorted(vps_stats, key=lambda x: x.instance_id)
+
+        extensions = '\n'.join(
+            [
+                f'{config.vps_webhook.emojis["working"]} ``Instance {stats.instance_id}`` - ``{stats.servers} Guilds / {stats.alts} alts``'
+                for stats in
+                vps_stats_sorted])
+
+        embed = discord.Embed(
+            title = f"Sniper Instances",
+            description = "If there are instances offline, it might takes longer to snipe.\n\n>>> " + extensions,
+            color = config.vps_webhook.color
+        )
+
+
+        if vps_message_id:
+            try:
+                async with httpx.AsyncClient() as rclient:
+                    res = await rclient.patch(config.vps_webhook.url + f'/messages/{vps_message_id}',
+                                              json={'embeds': [embed.to_dict()]})
+                    if res.status_code != 200:
+                        vps_message_id = None
+            except:
+                pass
+
+        if not vps_message_id:
+            try:
+                async with httpx.AsyncClient() as rclient:
+                    res = await rclient.post(config.vps_webhook.url + '?wait=true',
+                                             json={'embeds': [embed.to_dict()]})
+            except:
+                pass
+            else:
+                vps_message_id = str(res.json()['id'])
+                f = open('data/vps.txt', 'w')
+                f.write(vps_message_id)
+                f.close()
+                
 @tasks.loop(seconds = 30)
 async def queueEmbedLoop():
     global queue_message_id, global_credits, global_orders, last_update_ping
