@@ -84,7 +84,9 @@ vps_webhook:
 
   emojis:
     working: <a:working:1206207001189949450>
-    
+
+  footer_icon: https://cdn.discordapp.com/emojis/1114898869004804106.gif?size=96&quality=lossless # this can be null
+
 # private logs channel
 logs_channel: channel_id_for_your_logs
 
