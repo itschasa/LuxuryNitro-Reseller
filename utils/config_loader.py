@@ -41,7 +41,8 @@ class vps_webhook:
     url: str
     color: int
     emojis: dict
-    
+    footer_icon: str
+
 @dataclass
 class config:
     discord_admins: list[int]
