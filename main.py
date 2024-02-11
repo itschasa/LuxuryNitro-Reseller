@@ -352,7 +352,8 @@ async def on_ready():
 
 @tasks.loop(seconds=30)
 async def vpsEmbedLoop():
-    global vps_message_id, last_update_ping
+    global vps_message_id
+
     await client.wait_until_ready()
     try:
         vps_stats = await api.get_vps_stats()
