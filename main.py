@@ -68,6 +68,7 @@ class log:
         return await logs_channel.send(f"<t:{timenow}:d> <t:{timenow}:t> `🟢` {message}", suppress_embeds=True)
     @staticmethod
     async def warn(message):
+        print(message)
         timenow = int(time.time())
         return await logs_channel.send(f"<t:{timenow}:d> <t:{timenow}:t> `🟡` {message}", suppress_embeds=True)
     @staticmethod
@@ -347,12 +348,12 @@ async def on_ready():
     logs_channel = client.get_channel(config.logs_channel)
     
     await tree.sync()
-    await queueEmbedLoop.start()
-    await vpsEmbedLoop.start()
+    await updateEmbedLoop.start()
+    
 
 @tasks.loop(seconds=30)
-async def vpsEmbedLoop():
-    global vps_message_id
+async def updateEmbedLoop():
+    global queue_message_id, global_credits, global_orders, last_update_ping, vps_message_id
 
     await client.wait_until_ready()
     try:
@@ -366,14 +367,14 @@ async def vpsEmbedLoop():
 
         extensions = '\n'.join(
             [
-                f'{config.vps_webhook.emojis["offline"] if stats.last_seen < current_time - 45 else config.vps_webhook.emojis["online"]} ``Instance {stats.instance_id}`` - ``{stats.servers} Guilds / {stats.alts} alts``'
+                f'{config.vps_webhook.emojis["offline"] if stats.last_seen < current_time - 45 else config.vps_webhook.emojis["online"]} {utils.lang.process(utils.lang.vps_data, {"id": stats.instance_id, "guilds": stats.servers, "alts": stats.alts})}'
                 for stats in vps_stats
             ]
         )
 
         embed = discord.Embed(
-            title = f"{utils.lang.process(utils.lang.vps_title)}",
-            description = "If there are instances offline, it might takes longer to snipe.\n\n>>> " + extensions,
+            title = utils.lang.vps_title,
+            description = f"{utils.lang.vps_desc}\n\n>>> " + extensions,
             color = config.vps_webhook.color
         ).set_footer(
             text=utils.lang.vps_footer_text,
@@ -403,11 +404,7 @@ async def vpsEmbedLoop():
                 f = open('data/vps.txt', 'w')
                 f.write(vps_message_id)
                 f.close()
-                
-@tasks.loop(seconds = 30)
-async def queueEmbedLoop():
-    global queue_message_id, global_credits, global_orders, last_update_ping
-    await client.wait_until_ready()
+    
     try:
         user = await api.get_user()
         queue = await api.get_queue()
