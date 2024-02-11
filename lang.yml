@@ -95,4 +95,5 @@ queue_length: "Queue Length: {length}"
 
 
 # vps stats embed
+vps_footer_text: Updates every 30 seconds
 vps_title: Sniper Instances
