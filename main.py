@@ -37,6 +37,11 @@ queue_message_id = f.read()
 f.close()
 if queue_message_id == '': queue_message_id = None
 
+f = open('data/vps.txt', 'r')
+vps_message_id = f.read()
+f.close()
+if vps_message_id == '': vps_message_id = None
+
 intents = discord.Intents.default()
 intents.message_content = True
 client = discord.Client(intents=intents)
@@ -63,6 +68,7 @@ class log:
         return await logs_channel.send(f"<t:{timenow}:d> <t:{timenow}:t> `🟢` {message}", suppress_embeds=True)
     @staticmethod
     async def warn(message):
+        print(message)
         timenow = int(time.time())
         return await logs_channel.send(f"<t:{timenow}:d> <t:{timenow}:t> `🟡` {message}", suppress_embeds=True)
     @staticmethod
@@ -342,12 +348,63 @@ async def on_ready():
     logs_channel = client.get_channel(config.logs_channel)
     
     await tree.sync()
-    await queueEmbedLoop.start()
+    await updateEmbedLoop.start()
     
-@tasks.loop(seconds = 30)
-async def queueEmbedLoop():
-    global queue_message_id, global_credits, global_orders, last_update_ping
+
+@tasks.loop(seconds=30)
+async def updateEmbedLoop():
+    global queue_message_id, global_credits, global_orders, last_update_ping, vps_message_id
+
     await client.wait_until_ready()
+    try:
+        vps_stats = await api.get_vps_stats()
+    except luxurynitro.errors.APIError as exc:
+        await log.warn(f"{utils.lang.embed_fetch_error} {exc.message}")
+    except luxurynitro.errors.RetryTimeout as exc:
+        await log.warn(f"{utils.lang.embed_fetch_error} {exc.message}" + "\n- ".join(f"`{e}`" for e in exc.errors))
+    else:
+        current_time = int(time.time())
+
+        extensions = '\n'.join(
+            [
+                f'{config.vps_webhook.emojis["offline"] if stats.last_seen < current_time - 45 else config.vps_webhook.emojis["online"]} {utils.lang.process(utils.lang.vps_data, {"id": stats.instance_id, "guilds": stats.servers, "alts": stats.alts})}'
+                for stats in vps_stats
+            ]
+        )
+
+        embed = discord.Embed(
+            title = utils.lang.vps_title,
+            description = f"{utils.lang.vps_desc}\n\n>>> " + extensions,
+            color = config.vps_webhook.color
+        ).set_footer(
+            text=utils.lang.vps_footer_text,
+            icon_url=config.vps_webhook.footer_icon
+        )
+
+
+        if vps_message_id:
+            try:
+                async with httpx.AsyncClient() as rclient:
+                    res = await rclient.patch(config.vps_webhook.url + f'/messages/{vps_message_id}',
+                                              json={'embeds': [embed.to_dict()]})
+                    if res.status_code != 200:
+                        vps_message_id = None
+            except:
+                pass
+
+        if not vps_message_id:
+            try:
+                async with httpx.AsyncClient() as rclient:
+                    res = await rclient.post(config.vps_webhook.url + '?wait=true',
+                                             json={'embeds': [embed.to_dict()]})
+            except:
+                pass
+            else:
+                vps_message_id = str(res.json()['id'])
+                f = open('data/vps.txt', 'w')
+                f.write(vps_message_id)
+                f.close()
+    
     try:
         user = await api.get_user()
         queue = await api.get_queue()

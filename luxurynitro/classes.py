@@ -71,6 +71,13 @@ class Order:
     timestamp: int = None
 
 @dataclass
+class VPS:
+    alts: str
+    instance_id: str
+    last_seen: int
+    servers: str
+    
+@dataclass
 class Stats:
     alts: int
     boost_chance: float

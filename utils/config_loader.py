@@ -37,6 +37,13 @@ class queue_webhook:
     show_eta: bool
 
 @dataclass
+class vps_webhook:
+    url: str
+    color: int
+    emojis: dict
+    footer_icon: str
+
+@dataclass
 class config:
     discord_admins: list[int]
     api_key: str
@@ -45,6 +52,7 @@ class config:
     purchase_link: str
     discord_token: str
     hit_webhook: hit_webhook
+    vps_webhook: vps_webhook
     queue_webhook: queue_webhook
     logs_channel: int
     qr_code_link: str
@@ -56,7 +64,8 @@ class config:
             self.hit_webhook: hit_webhook = hit_webhook(**self.hit_webhook)
         if isinstance(self.queue_webhook, dict):
             self.queue_webhook: queue_webhook = queue_webhook(**self.queue_webhook)
-
+        if isinstance(self.vps_webhook, dict):
+            self.vps_webhook: vps_webhook = vps_webhook(**self.vps_webhook)
 
 def load():
     f = open('config.yml', 'r')
