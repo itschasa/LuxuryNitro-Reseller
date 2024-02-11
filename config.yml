@@ -83,7 +83,8 @@ vps_webhook:
   color: 11032831
 
   emojis:
-    working: <a:working:1206207001189949450>
+    online: <a:online:1146457523960959108>
+    offline: <a:offline:1146457528339808426>
 
   footer_icon: https://cdn.discordapp.com/emojis/1114898869004804106.gif?size=96&quality=lossless # this can be null
 
