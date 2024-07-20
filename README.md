@@ -1,3 +1,6 @@
+**This project is now archived, due to LuxuryNitro going offline permanently. More info can be viewed [here](https://github.com/itschasa/luxury).**
+
+---
 # LuxuryNitro Reseller
 A Discord Bot used to resell credits from luxurynitro.com, using it's API.
 
